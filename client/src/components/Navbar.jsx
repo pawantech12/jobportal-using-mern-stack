@@ -49,7 +49,7 @@ const Navbar = () => {
             </Link>
             {dropdownVisible && (
               <ul
-                className="absolute top-full py-4 px-3 text-sm left-0 mt-2 py w-48 bg-white shadow-lg rounded-md"
+                className="absolute top-full py-4 px-3 text-sm left-0 mt-2 py w-44 bg-white shadow-lg rounded-md"
                 onMouseLeave={toggleDropdown}
               >
                 <li className="flex items-center group">
