@@ -48,7 +48,7 @@ const Navbar = () => {
               <IoChevronDownOutline />
             </Link>
             {dropdownVisible && (
-              <ul className="absolute top-full py-4 z-1 px-3 text-sm left-0 mt-2 py w-44 bg-white shadow-lg rounded-md">
+              <ul className="absolute top-full py-4 z-10 px-3 text-sm left-0 mt-2 py w-44 bg-white shadow-lg rounded-md">
                 <li className="flex items-center group">
                   <FaCircle className="w-[5px] h-[5px] text-violet-300 group-hover:text-violet-400" />
                   <Link className="hover:text-violet-400 px-3 hover:px-4 py-2 transition-all ease-in-out duration-300">
