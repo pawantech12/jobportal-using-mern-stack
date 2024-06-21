@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      boxShadow: {
+        custom: "0px 20px 60px -6px rgba(0, 0, 0, 0.04)",
+      },
       keyframes: {
         updown: {
           "0%": { transform: "translateY(-20px)" },
