@@ -19,11 +19,16 @@ export default {
           "0%": { transform: "translateX(-50px)" },
           "100%": { transform: "translateX(0px)" },
         },
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
       },
       animation: {
         updown: "updown 2s linear infinite alternate",
         course: "course 3s linear infinite alternate",
         cong: "cong 3s linear infinite alternate",
+        fadeIn: "fadeIn 0.5s ease-in-out forwards",
       },
     },
   },
