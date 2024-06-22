@@ -350,8 +350,8 @@ const Home = () => {
           ))}
         </div>
       </section>
-      <section className="mt-20 px-24 flex justify-between gap-8">
-        <div>
+      <section className="mt-20 px-24 flex justify-between gap-8 relative">
+        <div className="mt-4">
           <h4 className="text-5xl font-bold text-neutral-700 leading-[3.7rem]">
             The #1 Job Board for Graphic Design Jobs
           </h4>
@@ -424,6 +424,138 @@ const Home = () => {
                 </div>
               </li>
             </ul>
+          </div>
+        </div>
+        <div className="w-[450px] -z-20 h-28 absolute top-[20%] -left-[14%] -rotate-[40deg] rounded-full bg-violet-200"></div>
+        <div className="w-[350px] -z-20 h-28 absolute top-[57%] -left-[10%] -rotate-[40deg] rounded-full bg-[#B6CCFF]"></div>
+      </section>
+      <section className="mt-28 px-24">
+        <div className="flex justify-center items-center gap-14 flex-wrap">
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/samsung.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/google.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/facebook.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/pinterest.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/avaya.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/forbes.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/avis.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/nielsen.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/jobs/logos/doordash.svg"
+            alt=""
+            className="hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 cursor-pointer"
+          />
+        </div>
+      </section>
+      <section className="px-24 mt-28">
+        <div className="flex justify-between">
+          <div>
+            <h4 className="text-6xl font-bold text-neutral-700">From blog</h4>
+            <p className="mt-5 text-zinc-500">Latest News & Events</p>
+          </div>
+          <div className="self-end">
+            <button className="border border-gray-200 font-medium hover:bg-violet-500 hover:-translate-y-[0.15rem] text-base hover:text-white transition-all duration-200 ease-in-out rounded-xl px-5 py-3 flex gap-2 items-center">
+              View more <GoChevronRight />
+            </button>
+          </div>
+        </div>
+        <div className="mt-12 flex justify-center flex-wrap gap-6">
+          <div className="w-[340px] px-7 py-5 border border-gray-200 rounded-xl cursor-pointer hover:border-violet-300 hover:-translate-y-[0.15rem] transition-all duration-200 ease-in-out">
+            <figure>
+              <img
+                src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/blog/img-blog-2.png"
+                alt=""
+                className="rounded-xl"
+              />
+            </figure>
+            <div className="flex justify-between items-center text-sm text-neutral-800 font-medium mt-5">
+              <span>Sarah Harding</span>
+              <span>06 September</span>
+            </div>
+            <h5 className="text-xl font-medium mt-3 hover:text-violet-500 transition-all duration-200 ease-in-out">
+              Senior Full Stack, Creator Success Full Time
+            </h5>
+            <div className="flex justify-between items-center mt-5">
+              <button className="border border-gray-200 font-medium hover:bg-violet-500 hover:-translate-y-[0.15rem] text-base hover:text-white transition-all duration-200 ease-in-out rounded-xl px-5 py-3 flex gap-2 items-center">
+                Keep Reading
+              </button>
+              <FaRegBookmark className="w-6 h-6 text-zinc-400" />
+            </div>
+          </div>
+          <div className="w-[340px] px-7 py-5 border border-gray-200 rounded-xl cursor-pointer hover:border-violet-300 hover:-translate-y-[0.15rem] transition-all duration-200 ease-in-out">
+            <figure>
+              <img
+                src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/blog/img-blog-2.png"
+                alt=""
+                className="rounded-xl"
+              />
+            </figure>
+            <div className="flex justify-between items-center text-sm text-neutral-800 font-medium mt-5">
+              <span>Sarah Harding</span>
+              <span>06 September</span>
+            </div>
+            <h5 className="text-xl font-medium mt-3 hover:text-violet-500 transition-all duration-200 ease-in-out">
+              Senior Full Stack, Creator Success Full Time
+            </h5>
+            <div className="flex justify-between items-center mt-5">
+              <button className="border border-gray-200 font-medium hover:bg-violet-500 hover:-translate-y-[0.15rem] text-base hover:text-white transition-all duration-200 ease-in-out rounded-xl px-5 py-3 flex gap-2 items-center">
+                Keep Reading
+              </button>
+              <FaRegBookmark className="w-6 h-6 text-zinc-400" />
+            </div>
+          </div>
+          <div className="w-[340px] px-7 py-5 border border-gray-200 rounded-xl cursor-pointer hover:border-violet-300 hover:-translate-y-[0.15rem] transition-all duration-200 ease-in-out">
+            <figure>
+              <img
+                src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/blog/img-blog-2.png"
+                alt=""
+                className="rounded-xl"
+              />
+            </figure>
+            <div className="flex justify-between items-center text-sm text-neutral-800 font-medium mt-5">
+              <span>Sarah Harding</span>
+              <span>06 September</span>
+            </div>
+            <h5 className="text-xl font-medium mt-3 hover:text-violet-500 transition-all duration-200 ease-in-out">
+              Senior Full Stack, Creator Success Full Time
+            </h5>
+            <div className="flex justify-between items-center mt-5">
+              <button className="border border-gray-200 font-medium hover:bg-violet-500 hover:-translate-y-[0.15rem] text-base hover:text-white transition-all duration-200 ease-in-out rounded-xl px-5 py-3 flex gap-2 items-center">
+                Keep Reading
+              </button>
+              <FaRegBookmark className="w-6 h-6 text-zinc-400" />
+            </div>
           </div>
         </div>
       </section>
