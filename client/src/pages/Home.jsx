@@ -13,7 +13,7 @@ import jobImg from "../images/job.svg";
 import imgJob from "../images/img-job.png";
 import SelectBox from "../components/SelectBox";
 import PartnerSlider from "../components/PartnerSlider";
-import { IoMdTime } from "react-icons/io";
+import { IoIosSend, IoMdTime } from "react-icons/io";
 import { BiCheckShield } from "react-icons/bi";
 import { GrLocation } from "react-icons/gr";
 const cardDetails = [
@@ -558,6 +558,33 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </section>
+      <section className="flex flex-col rounded-xl items-center mt-20 py-20 bg-blue-500 relative overflow-hidden">
+        <div>
+          <h4 className="text-4xl font-bold text-white">
+            Sign up to get the latest jobs
+          </h4>
+        </div>
+        <form
+          action=""
+          className="relative z-10 mt-9 w-1/2 flex justify-between gap-3 bg-white p-3 rounded-xl"
+        >
+          <input
+            type="text"
+            placeholder="contact.alithemes@gmail.com"
+            className="outline-none border-none w-full px-3"
+          />
+          <button className="bg-violet-500 px-6 py-3 text-lg text-white rounded-lg flex items-center gap-2 font-medium hover:-translate-y-[0.15rem] hover:bg-violet-600 transition-all ease-in-out duration-200">
+            Subscribe <IoIosSend className="w-7 h-7" />
+          </button>
+        </form>
+        <div className="w-44 absolute h-44 border-[0.2rem] border-blue-100 rounded-full -top-1/4 left-0"></div>
+        <div className="w-44 absolute h-44 border-[0.2rem] border-blue-100 rounded-full -top-[35%] left-0"></div>
+        <div className="w-44 absolute h-44 border-[0.2rem] border-blue-100 rounded-full -top-[45%] left-0"></div>
+        <div className="w-44 absolute h-44 border-[0.2rem] border-blue-100 rounded-full -top-[10%] left-[-5%]"></div>
+        <div className="w-44 absolute h-44 border-[0.2rem] border-blue-100 rounded-full -top-[15%] left-[-7%]"></div>
+        <div className="w-44 absolute h-44 border-[0.2rem] border-blue-100 rounded-full -top-[20%] left-[-9%]"></div>
+        <div className="w-96 h-96 z-0 bg-blue-100 absolute bottom-[-60%] right-[-4%] rounded-full"></div>
       </section>
     </main>
   );
