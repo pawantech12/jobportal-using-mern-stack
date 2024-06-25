@@ -5,3 +5,32 @@
 body{
     font-family: "Montserrat", sans-serif;
 }
+.custom-checkbox {
+    transition: all 0.3s ease-in-out;
+    appearance: none;
+    outline: none;
+    background-color: #fff;
+    border: 2px solid #d1d1d1;
+    width: 23px;
+    height: 23px;
+    display: inline-block;
+    position: relative;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  
+  .custom-checkbox:checked {
+    background-color:#9777fa;
+}
+
+.custom-checkbox:checked::after {
+      border: none;
+    content: '';
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 21px;
+    height: 21px;
+    background: #9777fa url(./images/tick2.svg) no-repeat center;
+    
+  }

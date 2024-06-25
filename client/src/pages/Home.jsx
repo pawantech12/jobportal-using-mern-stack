@@ -559,7 +559,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="flex flex-col rounded-xl items-center mt-20 py-20 bg-blue-500 relative overflow-hidden">
+      <section className="flex flex-col rounded-xl mx-24 items-center mt-20 py-20 bg-blue-500 relative overflow-hidden">
         <div>
           <h4 className="text-4xl font-bold text-white">
             Sign up to get the latest jobs
