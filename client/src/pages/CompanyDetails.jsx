@@ -6,6 +6,7 @@ import {
   FaPinterest,
   FaRegBookmark,
   FaRegClock,
+  FaStar,
 } from "react-icons/fa6";
 import { FiDollarSign } from "react-icons/fi";
 
@@ -15,19 +16,59 @@ import jobImg from "../images/job.svg";
 import { AiFillTwitterCircle } from "react-icons/ai";
 import { GrLocation } from "react-icons/gr";
 import { BiCheckShield, BiTimer } from "react-icons/bi";
-export const JobDetails = () => {
+const CompanyDetails = () => {
   return (
     <>
-      <section className="bg-orange-50 relative overflow-hidden flex flex-col gap-4 px-24 py-14">
-        <h3 className="text-4xl font-bold text-neutral-700">
-          Senior UI / UX Designer
-        </h3>
-        <span className=" text-zinc-400">
-          <Link className="text-neutral-900 hover:text-violet-500 transition-all ease-in-out duration-200 cursor-pointer">
-            Home
-          </Link>{" "}
-          / Jobs listing
-        </span>
+      <section className="bg-orange-50 relative overflow-hidden flex gap-4 px-24 py-14">
+        <figure>
+          <img
+            src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/page/employers/employer-12.png"
+            alt=""
+            className="w-32 h-32"
+          />
+        </figure>
+        <div className="flex flex-col gap-3">
+          <h3 className="text-4xl font-bold text-neutral-700">
+            Behance Studio
+          </h3>
+          <div className="flex items-center gap-3">
+            <span className="text-sm flex items-center gap-2">
+              <GrLocation className="text-zinc-400 w-4 h-4" />
+              Chicago, US
+            </span>
+            <span className="flex items-center gap-2 text-sm">
+              {" "}
+              <img src={jobImg} alt="" className="w-4 h4" /> Accounting /
+              Finance
+            </span>
+            <span className="flex items-center gap-2 text-sm">
+              <FaRegClock className="w-4 h-4 text-zinc-400" />
+              Since 2012{" "}
+            </span>
+            <span className="flex items-center gap-1">
+              <FaStar className="w-[15px] h-[15px] text-[#F5BE3D]" />
+              <FaStar className="w-[15px] h-[15px] text-[#F5BE3D]" />
+              <FaStar className="w-[15px] h-[15px] text-[#F5BE3D]" />
+              <FaStar className="w-[15px] h-[15px] text-[#F5BE3D]" />
+              <FaStar className="w-[15px] h-[15px] text-zinc-300" />
+            </span>
+            <span className="text-zinc-400 text-sm">(4.0)</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="px-4 py-2 rounded-full bg-[#EAEDF5] text-sm">
+                12 open jobs
+              </span>
+              <span className="px-4 py-2 rounded-full bg-[#EAEDF5] text-sm">
+                24 completed jobs
+              </span>
+            </div>
+            <button className="px-5 py-3 rounded-md font-medium text-white bg-violet-400 hover:bg-violet-500 hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200">
+              Apply for job
+            </button>
+          </div>
+        </div>
+
         <div className="w-12 h-12 rounded-full border-[1.1rem] right-[8%] border-[#E5EAF5] absolute top-[25%]"></div>
         <div className="w-32 h-32 rounded-full border-[2rem] right-[-2%] border-[#EADFF5] absolute bottom-[-25%]"></div>
         <div className="w-3 h-3 rounded-full bg-[#BEE2AE] absolute left-[1%] top-[7%]"></div>
@@ -519,3 +560,5 @@ export const JobDetails = () => {
     </>
   );
 };
+
+export default CompanyDetails;

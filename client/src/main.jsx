@@ -6,6 +6,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import { BrowseJobs } from "./pages/BrowseJobs.jsx";
 import { JobDetails } from "./pages/JobDetails.jsx";
+import BrowseCompany from "./pages/BrowseCompany.jsx";
+import CompanyDetails from "./pages/CompanyDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +19,16 @@ const router = createBrowserRouter([
     element: <App element={<BrowseJobs />} />,
   },
   {
+    path: "/browse-company",
+    element: <App element={<BrowseCompany />} />,
+  },
+  {
     path: "/job-details",
     element: <App element={<JobDetails />} />,
+  },
+  {
+    path: "/company-details",
+    element: <App element={<CompanyDetails />} />,
   },
 ]);
 
