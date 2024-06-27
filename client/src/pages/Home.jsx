@@ -291,7 +291,7 @@ const Home = () => {
           {filteredCard.map((card, index) => (
             <div
               key={index}
-              className="w-[360px] rounded-xl anim border border-gray-200 hover:border-violet-400 hover:-translate-y-[0.15rem] opacity-0 animate-fadeIn transition-transform transform ease-in-out duration-500 cursor-pointer"
+              className="w-[360px] rounded-xl  border border-gray-200 hover:border-violet-400 hover:-translate-y-[0.15rem] opacity-0 animate-fadeIn transition-transform transform ease-in-out duration-500 cursor-pointer"
             >
               <figure>
                 <img
