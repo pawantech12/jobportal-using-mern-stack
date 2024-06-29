@@ -78,14 +78,7 @@ const CompanyDetails = () => {
       </section>
       <section className="flex gap-4 mt-12 px-24">
         <div className="w-2/3 flex flex-col gap-5">
-          <figure>
-            <img
-              src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/page/job-single/img-job-feature.png"
-              alt=""
-              className="rounded-xl"
-            />
-          </figure>
-          <h4 className="text-[22px] font-semibold">The AliStudio Team</h4>
+          <h4 className="text-2xl font-bold">About Company</h4>
           <p>
             The AliStudio Design team has a vision to establish a trusted
             platform that enables productive and healthy enterprises in a world
@@ -150,7 +143,7 @@ const CompanyDetails = () => {
                 Apply now
               </button>
               <button className="border border-zinc-200 hover:border-none hover:text-white hover:bg-violet-500 rounded-lg px-3 py-2 font-medium hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300">
-                Save job
+                Save Company
               </button>
             </div>
             <ul className="flex items-center gap-3">
@@ -457,48 +450,18 @@ const CompanyDetails = () => {
             </div>
           </div>
         </div>
-        <div className="w-2/6 border border-zinc-200 h-fit rounded-xl p-6">
-          <div className="flex flex-col gap-5">
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <figure>
-                  <img
-                    src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/page/job-single/avatar-job.png"
-                    className="w-12 h-12"
-                    alt=""
-                  />
-                </figure>
-                <div>
-                  <h4 className="text-lg font-semibold">AliStudio, Inc</h4>
-                  <small className="text-[12px] text-violet-500">
-                    alithemes.com
-                  </small>
-                </div>
-              </div>
-              <button className="text-zinc-500">
-                <BsThreeDots />
-              </button>
-            </div>
-            <p>
-              We're looking to add more product designers to our growing teams.
-            </p>
-            <div className="flex gap-4 items-center">
-              <button className="bg-violet-500 text-white rounded-lg px-3 py-2 hover:bg-violet-600 font-medium hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200">
-                Apply now
-              </button>
-              <button className="border border-zinc-200 hover:border-none hover:text-white hover:bg-violet-500 rounded-lg px-3 py-2 font-medium hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300">
-                Save job
-              </button>
-            </div>
-            <hr className="my-5" />
+        <div className="w-2/6  h-fit flex flex-col gap-12">
+          <div className="flex flex-col gap-5 border border-zinc-200 rounded-xl p-6">
+            <h4 className="text-xl font-semibold">Overview</h4>
+            <hr className=" mb-2" />
             <div className="flex flex-col gap-5">
               <div>
                 <span className="flex gap-2 text-zinc-400 font-medium items-center">
                   {" "}
-                  <img src={jobImg} alt="" className="w-6 h-6" /> Job Type
+                  <img src={jobImg} alt="" className="w-6 h-6" /> Company field
                 </span>
                 <b className="ml-6 font-semibold text-neutral-700">
-                  Full time / Remote
+                  Accounting / Finance
                 </b>
               </div>
               <div>
@@ -523,37 +486,40 @@ const CompanyDetails = () => {
               </div>
               <div>
                 <span className="flex gap-2 text-zinc-400 font-medium items-center">
-                  <FaRegClock className="w-5 h-5" /> Date Posted
+                  <FaRegClock className="w-5 h-5" /> Member Since
                 </span>
-                <b className="ml-6 font-semibold text-neutral-700">
-                  2 days ago
-                </b>
+                <b className="ml-6 font-semibold text-neutral-700">July 2012</b>
               </div>
             </div>
             <hr className="my-5" />
-            <div>
-              <h4 className="text-lg font-semibold">Contact Info</h4>
-              <ul className="text-zinc-500 flex flex-col gap-3 mt-3">
-                <li className="flex gap-4">
-                  <GrLocation className="w-7 h-7" />
-                  <p>Campbell Ave undefined Kent, Utah 53127 United States</p>
-                </li>
-                <li className="flex gap-4 items-center">
-                  <FaPhone className="w-4 h-4" /> +1 555-555
-                  <Link to="tel:+15555555555">555</Link>
-                </li>
-                <li className="flex gap-4 items-center">
-                  <FaEnvelope className="w-4 h-4" />
-                  <Link to="mailto:example@example.com">
-                    example@example.com
-                  </Link>
-                </li>
-                <li className="flex gap-4 items-center">
-                  <BiTimer className="w-6 h-6" />
-                  <span>10:00 - 18:00, Mon - Sat</span>
-                </li>
-              </ul>
+            <div className="flex justify-between">
+              <button className="text-white bg-violet-400 hover:bg-violet-500 hover:-translate-y-[0.15rem] font-medium text-lg transition-all ease-in-out duration-200 rounded-md px-3 py-2">
+                Contact us
+              </button>
+              <button className="border border-gray-200 px-3 py-2 rounded-md font-medium hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200">
+                Send message
+              </button>
             </div>
+          </div>
+          <div className="rounded-xl p-6 flex flex-wrap gap-3 border border-gray-200">
+            <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
+              Figma
+            </span>
+            <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
+              Adobe XD
+            </span>
+            <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
+              PSD
+            </span>
+            <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
+              HTML5
+            </span>
+            <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
+              CSS3
+            </span>
+            <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
+              JavaScript
+            </span>
           </div>
         </div>
       </section>

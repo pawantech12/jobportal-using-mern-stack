@@ -8,6 +8,8 @@ import { BrowseJobs } from "./pages/BrowseJobs.jsx";
 import { JobDetails } from "./pages/JobDetails.jsx";
 import BrowseCompany from "./pages/BrowseCompany.jsx";
 import CompanyDetails from "./pages/CompanyDetails.jsx";
+import { Blog } from "./pages/Blog.jsx";
+import { SingleBlog } from "./pages/SingleBlog.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
   {
     path: "/company-details",
     element: <App element={<CompanyDetails />} />,
+  },
+  {
+    path: "/blogs",
+    element: <App element={<Blog />} />,
+  },
+  {
+    path: "/single-blog",
+    element: <App element={<SingleBlog />} />,
   },
 ]);
 
