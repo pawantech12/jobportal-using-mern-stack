@@ -29,7 +29,7 @@ export const SingleBlog = () => {
       </div>
       <div className="flex gap-3 justify-between px-24 mt-14">
         <div className="w-4/6">
-          <div className="border border-gray-200 rounded-xl p-8 flex flex-col cursor-pointer hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 gap-4">
+          <div className=" flex flex-col  gap-4">
             <figure>
               <img
                 src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/blog/blog-thumb-1.png"
@@ -37,122 +37,91 @@ export const SingleBlog = () => {
                 alt=""
               />
             </figure>
-            <div className="flex items-center gap-6 mt-2">
-              <div className="flex items-center gap-2">
-                <img
-                  src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/avatar/ava_16.png"
-                  className="w-7 h-7"
-                  alt=""
-                />
-                <span className="text-sm text-zinc-500 font-medium">
-                  Sarah Harding
-                </span>
-              </div>
-              <span className="flex gap-1 items-center text-sm font-medium text-zinc-400">
-                <LiaEdit className="w-5 h-5" />
-                06 Sep 2022
-              </span>
-            </div>
-            <h4 className="text-xl font-bold text-neutral-700 hover:text-violet-500 transition-all ease-in-out duration-200">
-              21 Job Interview Tips: How To Make a Great Impression
-            </h4>
-            <p className="text-sm text-zinc-500">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit ab,
-              dicta minus aspernatur magnam atque excepturi perspiciatis omnis
-              voluptas ullam nam, sunt temporibus fuga vero! Adipisci
-              perspiciatis necessitatibus reprehenderit repellat.
+
+            <h4 className="text-[22px] font-semibold">The AliStudio Team</h4>
+            <p>
+              The AliStudio Design team has a vision to establish a trusted
+              platform that enables productive and healthy enterprises in a
+              world of digital and remote everything, constantly changing work
+              patterns and norms, and the need for organizational resiliency.
             </p>
-            <div className="flex justify-between mt-2 items-center">
-              <button className="px-3 py-2 hover:bg-violet-400 hover:text-white transition-all ease-in-out duration-200 font-medium border border-violet-400 rounded-md">
-                Keep reading
-              </button>
-              <div className="flex  items-center gap-3">
-                <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
-                  Figma
-                </span>
-                <span className="px-4 py-2 rounded-full bg-[#EAF2FF] text-sm hover:-translate-y-[0.15rem] transition-all ease-in-out duration-200 cursor-pointer">
-                  Adobe XD
-                </span>
-                <span>
-                  <FaRegBookmark className="w-5 h-5 text-zinc-400" />
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-7 flex-wrap mt-9">
-            <div className="border w-[360px] border-gray-200 rounded-xl p-8 flex flex-col cursor-pointer hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 gap-3">
-              <figure>
-                <img
-                  src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/blog/blog-thumb-1.png"
-                  className="rounded-xl"
-                  alt=""
-                />
-              </figure>
-              <div className="flex items-center gap-6 mt-2">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/avatar/ava_16.png"
-                    className="w-7 h-7"
-                    alt=""
-                  />
-                  <span className="text-sm text-zinc-500 font-medium">
-                    Sarah Harding
-                  </span>
-                </div>
-                <span className="flex gap-1 items-center text-sm font-medium text-zinc-400">
-                  <LiaEdit className="w-5 h-5" />
-                  06 Sep 2022
-                </span>
-              </div>
-              <h4 className="text-lg font-bold text-neutral-700 hover:text-violet-500 transition-all ease-in-out duration-200">
-                21 Job Interview Tips: How To Make a Great Impression
+            <p>
+              The ideal candidate will have strong creative skills and a
+              portfolio of work which demonstrates their passion for
+              illustrative design and typography. This candidate will have
+              experiences in working with numerous different design platforms
+              such as digital and print forms.
+            </p>
+            <div>
+              <h4 className="text-[22px] font-semibold">
+                Essential Knowledge, Skills, and Experience
               </h4>
 
-              <div className="flex mt-2 justify-between items-center">
-                <button className="px-3 py-2 hover:bg-violet-400 hover:text-white transition-all ease-in-out duration-200 font-medium border border-violet-400 rounded-md">
-                  Keep reading
-                </button>
-                <span>
-                  <FaRegBookmark className="w-5 h-5 text-zinc-400" />
-                </span>
-              </div>
+              <ul className="mt-5 list-disc flex flex-col gap-1">
+                <li>
+                  A portfolio demonstrating well thought through and polished
+                  end to end customer journeys
+                </li>
+                <li>
+                  5+ years of industry experience in interactive design and / or
+                  visual design
+                </li>
+                <li>Excellent interpersonal skills</li>
+                <li>
+                  Aware of trends in mobile, communications, and collaboration
+                </li>
+                <li>
+                  Ability to create highly polished design prototypes, mockups,
+                  and other communication artifacts
+                </li>
+              </ul>
             </div>
-            <div className="border w-[360px] border-gray-200 rounded-xl p-8 flex flex-col cursor-pointer hover:-translate-y-[0.15rem] transition-all ease-in-out duration-300 gap-3">
-              <figure>
-                <img
-                  src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/blog/blog-thumb-1.png"
-                  className="rounded-xl"
-                  alt=""
-                />
-              </figure>
-              <div className="flex mt-2 items-center gap-6">
-                <div className="flex items-center gap-2">
-                  <img
-                    src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/avatar/ava_16.png"
-                    className="w-7 h-7"
-                    alt=""
-                  />
-                  <span className="text-sm text-zinc-500 font-medium">
-                    Sarah Harding
-                  </span>
-                </div>
-                <span className="flex gap-1 items-center text-sm font-medium text-zinc-400">
-                  <LiaEdit className="w-5 h-5" />
-                  06 Sep 2022
-                </span>
-              </div>
-              <h4 className="text-lg font-bold text-neutral-700 hover:text-violet-500 transition-all ease-in-out duration-200">
-                21 Job Interview Tips: How To Make a Great Impression
+            <div>
+              <h4 className="text-[22px] font-semibold">
+                Preferred Experience
               </h4>
-
-              <div className="flex mt-2 justify-between items-center">
-                <button className="px-3 py-2 hover:bg-violet-400 hover:text-white transition-all ease-in-out duration-200 font-medium border border-violet-400 rounded-md">
-                  Keep reading
-                </button>
-                <span>
-                  <FaRegBookmark className="w-5 h-5 text-zinc-400" />
-                </span>
+              <ul className="list-disc flex flex-col gap-1 mt-5">
+                <li>
+                  A portfolio demonstrating well thought through and polished
+                  end to end customer journeys
+                </li>
+                <li>
+                  5+ years of industry experience in interactive design and / or
+                  visual design
+                </li>
+                <li>Excellent interpersonal skills</li>
+                <li>
+                  Aware of trends in mobile, communications, and collaboration
+                </li>
+                <li>
+                  Ability to create highly polished design prototypes, mockups,
+                  and other communication artifacts
+                </li>
+              </ul>
+            </div>
+            <div className="border border-gray-200 rounded-xl px-7 py-8">
+              <div className="flex gap-3">
+                <figure>
+                  <img
+                    src="https://wp.alithemes.com/html/jobhub/frontend/assets/imgs/avatar/ava_14.png"
+                    alt=""
+                    className="w-12 h-12"
+                  />
+                </figure>
+                <div>
+                  <h4 className="text-xl font-semibold">Steven Job</h4>
+                  <div className="text-zinc-400 flex gap-4 items-center text-sm">
+                    <span>306 posts</span>
+                    <span>Since 2012</span>
+                  </div>
+                </div>
               </div>
+              <p className="text-zinc-500 font-medium mt-4">
+                Hi, I'm a recruiter with over 25 years of experience. I have
+                worked in many multinational companies and corporations. With my
+                experiences, I hope my articles will bring you knowledge and
+                inspiration.
+              </p>
             </div>
           </div>
         </div>

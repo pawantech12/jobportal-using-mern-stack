@@ -10,6 +10,8 @@ import BrowseCompany from "./pages/BrowseCompany.jsx";
 import CompanyDetails from "./pages/CompanyDetails.jsx";
 import { Blog } from "./pages/Blog.jsx";
 import { SingleBlog } from "./pages/SingleBlog.jsx";
+import { Register } from "./pages/Register.jsx";
+import { Login } from "./pages/Login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,14 @@ const router = createBrowserRouter([
   {
     path: "/single-blog",
     element: <App element={<SingleBlog />} />,
+  },
+  {
+    path: "/register",
+    element: <App element={<Register />} />,
+  },
+  {
+    path: "/login",
+    element: <App element={<Login />} />,
   },
 ]);
 
