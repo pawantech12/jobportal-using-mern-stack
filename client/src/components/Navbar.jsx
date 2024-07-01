@@ -23,12 +23,18 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link className="hover:text-violet-400 transition-all ease-in-out duration-300">
+            <Link
+              to="/browse-jobs"
+              className="hover:text-violet-400 transition-all ease-in-out duration-300"
+            >
               Browse Jobs
             </Link>
           </li>
           <li>
-            <Link className="hover:text-violet-400 transition-all ease-in-out duration-300">
+            <Link
+              to="/browse-company"
+              className="hover:text-violet-400 transition-all ease-in-out duration-300"
+            >
               Companys
             </Link>
           </li>
@@ -38,7 +44,10 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link className="hover:text-violet-400 transition-all ease-in-out duration-300">
+            <Link
+              to="/blogs"
+              className="hover:text-violet-400 transition-all ease-in-out duration-300"
+            >
               Blog
             </Link>
           </li>
@@ -80,10 +89,10 @@ const Navbar = () => {
       </nav>
       <div className="flex gap-4">
         <button className="text-violet-400 font-medium border-2 hover:bg-violet-400 transition-all ease-in-out duration-300 hover:text-white border-violet-400 py-2 px-4 rounded-md">
-          <Link>Log In</Link>
+          <Link to="/login">Log In</Link>
         </button>
         <button className="bg-violet-400 px-4 py-2 rounded-md text-white font-medium hover:bg-violet-500 transition-all ease-in-out duration-300">
-          <Link>Sign Up</Link>
+          <Link to="/register">Sign Up</Link>
         </button>
       </div>
     </header>
