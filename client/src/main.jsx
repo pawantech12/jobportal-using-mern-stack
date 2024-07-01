@@ -12,6 +12,7 @@ import { Blog } from "./pages/Blog.jsx";
 import { SingleBlog } from "./pages/SingleBlog.jsx";
 import { Register } from "./pages/Register.jsx";
 import { Login } from "./pages/Login.jsx";
+import { ApplyJob } from "./pages/ApplyJob.jsx";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/job-details",
     element: <App element={<JobDetails />} />,
+  },
+  {
+    path: "/apply-job",
+    element: <App element={<ApplyJob />} />,
   },
   {
     path: "/company-details",
