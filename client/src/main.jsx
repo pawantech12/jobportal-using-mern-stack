@@ -13,6 +13,8 @@ import { SingleBlog } from "./pages/SingleBlog.jsx";
 import { Register } from "./pages/Register.jsx";
 import { Login } from "./pages/Login.jsx";
 import { ApplyJob } from "./pages/ApplyJob.jsx";
+import { Dashboard } from "./pages/admin/Dashboard.jsx";
+import { AdminHome } from "./pages/admin/pages/AdminHome.jsx";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +56,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <App element={<Login />} />,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard element={<AdminHome />} />,
   },
 ]);
 

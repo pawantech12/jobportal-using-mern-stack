@@ -11,14 +11,17 @@ const Navbar = () => {
   };
 
   return (
-    <header className="py-7 px-20 flex justify-between items-center">
+    <header className="py-6 px-20 flex justify-between items-center shadow-lg">
       <div>
         <img src={logo} alt="JobHub Logo" />
       </div>
       <nav>
         <ul className="flex gap-9 font-medium">
           <li>
-            <Link className="hover:text-violet-400 transition-all ease-in-out duration-300">
+            <Link
+              to="/"
+              className="hover:text-violet-400 transition-all ease-in-out duration-300"
+            >
               Home
             </Link>
           </li>
