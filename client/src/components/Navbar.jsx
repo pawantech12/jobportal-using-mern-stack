@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import logo from "../images/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { FaCircle } from "react-icons/fa";
+import { useAuth } from "../stores/auth";
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const { token, logout } = useAuth();
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
-
+  const handleLogout = () => {
+    logout(); // Call the logout function
+    // Optionally, you can redirect the user or perform any additional cleanup
+    navigate("/"); // Replace with your dashboard route
+  };
   return (
     <header className="py-6 px-20 flex justify-between items-center shadow-lg">
       <div>
@@ -91,12 +99,23 @@ const Navbar = () => {
         </ul>
       </nav>
       <div className="flex gap-4">
-        <button className="text-violet-400 font-medium border-2 hover:bg-violet-400 transition-all ease-in-out duration-300 hover:text-white border-violet-400 py-2 px-4 rounded-md">
-          <Link to="/login">Log In</Link>
-        </button>
-        <button className="bg-violet-400 px-4 py-2 rounded-md text-white font-medium hover:bg-violet-500 transition-all ease-in-out duration-300">
-          <Link to="/register">Sign Up</Link>
-        </button>
+        {token ? (
+          <button
+            onClick={handleLogout}
+            className="bg-violet-400 px-4 py-2 rounded-md text-white font-medium hover:bg-violet-500 transition-all ease-in-out duration-300"
+          >
+            Logout
+          </button>
+        ) : (
+          <>
+            <button className="text-violet-400 font-medium border-2 hover:bg-violet-400 transition-all ease-in-out duration-300 hover:text-white border-violet-400 py-2 px-4 rounded-md">
+              <Link to="/login">Log In</Link>
+            </button>
+            <button className="bg-violet-400 px-4 py-2 rounded-md text-white font-medium hover:bg-violet-500 transition-all ease-in-out duration-300">
+              <Link to="/register">Sign Up</Link>
+            </button>
+          </>
+        )}
       </div>
     </header>
   );

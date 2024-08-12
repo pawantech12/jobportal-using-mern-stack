@@ -5,7 +5,7 @@ function App({ element }) {
   return (
     <>
       <Navbar />
-      {element}
+      <div className="mt-10">{element}</div>
       <Footer />
     </>
   );

@@ -18,6 +18,8 @@ import { AdminHome } from "./pages/admin/pages/AdminHome.jsx";
 import { Bookmark } from "./pages/admin/pages/Bookmark.jsx";
 import { Application } from "./pages/admin/pages/Application.jsx";
 import { Profile } from "./pages/admin/pages/Profile.jsx";
+import ContactUs from "./pages/ContactUs.jsx";
+import { AuthProvider } from "./stores/auth.jsx";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +55,10 @@ const router = createBrowserRouter([
     element: <App element={<SingleBlog />} />,
   },
   {
+    path: "/contact-us",
+    element: <App element={<ContactUs />} />,
+  },
+  {
     path: "/register",
     element: <App element={<Register />} />,
   },
@@ -80,6 +86,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

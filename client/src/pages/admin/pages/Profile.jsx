@@ -1,8 +1,94 @@
-import React from "react";
+import React, { useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
 
 export const Profile = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [editSection, setEditSection] = useState(null);
+
+  const handleEditClick = (section) => {
+    setEditSection(section);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setEditSection(null);
+  };
+
+  const renderModalContent = () => {
+    switch (editSection) {
+      case "profile":
+        return (
+          <div>
+            {/* Add form fields for editing the profile section here */}
+            <input
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Name"
+            />
+          </div>
+        );
+      case "summary":
+        return (
+          <div>
+            {/* Add form fields for editing the summary section here */}
+            <textarea
+              className="w-full p-2 border rounded"
+              placeholder="Summary"
+            ></textarea>
+          </div>
+        );
+      case "skills":
+        return (
+          <div>
+            {/* Add form fields for editing the skills section here */}
+            <input
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Skills"
+            />
+          </div>
+        );
+      case "education":
+        return (
+          <div>
+            {/* Add form fields for editing the education section here */}
+            <input
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Education"
+            />
+          </div>
+        );
+      case "certifications":
+        return (
+          <div>
+            {/* Add form fields for editing the certifications section here */}
+            <input
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Certifications"
+            />
+          </div>
+        );
+      case "experience":
+        return (
+          <div>
+            {/* Add form fields for editing the experience section here */}
+            <input
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="Experience"
+            />
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <>
       <section>
@@ -26,14 +112,24 @@ export const Profile = () => {
               </p>
             </div>
           </div>
-          <button className="bg-violet-400 px-4 py-2 rounded-md text-white font-medium hover:bg-violet-500 transition-all ease-in-out duration-200">
+          <button
+            className="bg-violet-400 px-4 py-2 rounded-md text-white font-medium hover:bg-violet-500 transition-all ease-in-out duration-200"
+            onClick={() => handleEditClick("profile")}
+          >
             Edit Profile
           </button>
         </div>
-        <div className="mt-5 border border-gray-200 p-8 rounded-xl">
-          <h4 className="text-xl font-semibold text-neutral-600">
-            Full-Stack Developer: HTML, CSS, JS, React, Node.js & More
-          </h4>
+
+        <div className="mt-5 border border-gray-200 p-8 rounded-xl relative">
+          <div className="flex justify-between items-center">
+            <h4 className="text-xl font-semibold text-neutral-600">
+              Full-Stack Developer: HTML, CSS, JS, React, Node.js & More
+            </h4>
+            <FaEdit
+              className="text-xl text-gray-400 cursor-pointer"
+              onClick={() => handleEditClick("summary")}
+            />
+          </div>
           <p className="text-zinc-500 mt-3">
             I'm a passionate web developer with a strong foundation in both
             front-end and back-end technologies. I possess expertise in building
@@ -43,40 +139,39 @@ export const Profile = () => {
             database management with MySQL and PHP.
           </p>
         </div>
-        <div className="mt-5 border border-gray-200 p-8 rounded-xl">
-          <h4 className="text-xl font-semibold text-neutral-600">Skills</h4>
-          <div className="mt-5 flex gap-3 items-center">
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
-            <span className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium">
-              HTML
-            </span>
+
+        <div className="mt-5 border border-gray-200 p-8 rounded-xl relative">
+          <div className="flex justify-between items-center">
+            <h4 className="text-xl font-semibold text-neutral-600">Skills</h4>
+            <FaEdit
+              className=" text-xl text-gray-400 cursor-pointer"
+              onClick={() => handleEditClick("skills")}
+            />
+          </div>
+          <div className="mt-5 flex gap-3 items-center flex-wrap">
+            {["HTML", "CSS", "JavaScript", "React", "Node.js"].map(
+              (skill, index) => (
+                <span
+                  key={index}
+                  className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium"
+                >
+                  {skill}
+                </span>
+              )
+            )}
           </div>
         </div>
-        <div className="mt-5 border border-gray-200 p-8 rounded-xl">
-          <h4 className="text-xl font-semibold text-neutral-600">Education</h4>
+
+        <div className="mt-5 border border-gray-200 p-8 rounded-xl relative">
+          <div className="flex justify-between items-center">
+            <h4 className="text-xl font-semibold text-neutral-600">
+              Education
+            </h4>
+            <FaEdit
+              className=" text-xl text-gray-400 cursor-pointer"
+              onClick={() => handleEditClick("education")}
+            />
+          </div>
           <div className="mt-4">
             <ul>
               <li className="border border-gray-200 rounded-xl p-6">
@@ -104,10 +199,17 @@ export const Profile = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-5 border border-gray-200 p-8 rounded-xl">
-          <h4 className="text-xl font-semibold text-neutral-600">
-            Certifications
-          </h4>
+
+        <div className="mt-5 border border-gray-200 p-8 rounded-xl relative">
+          <div className="flex justify-between items-center">
+            <h4 className="text-xl font-semibold text-neutral-600">
+              Certifications
+            </h4>
+            <FaEdit
+              className=" text-xl text-gray-400 cursor-pointer"
+              onClick={() => handleEditClick("certifications")}
+            />
+          </div>
           <div className="mt-4">
             <ul>
               <li className="border border-gray-200 rounded-xl p-6">
@@ -147,8 +249,17 @@ export const Profile = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-5 border border-gray-200 p-8 rounded-xl">
-          <h4 className="text-xl font-semibold text-neutral-600">Experience</h4>
+
+        <div className="mt-5 border border-gray-200 p-8 rounded-xl relative">
+          <div className="flex justify-between items-center">
+            <h4 className="text-xl font-semibold text-neutral-600">
+              Experience
+            </h4>
+            <FaEdit
+              className="text-xl text-gray-400 cursor-pointer"
+              onClick={() => handleEditClick("experience")}
+            />
+          </div>
           <div className="mt-4">
             <ul>
               <li className="border border-gray-200 rounded-xl p-6">
@@ -189,6 +300,34 @@ export const Profile = () => {
           </div>
         </div>
       </section>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg max-w-lg w-full">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold">Edit {editSection}</h2>
+              <button onClick={handleClose} className="text-gray-400">
+                &times;
+              </button>
+            </div>
+            <div className="mt-4">{renderModalContent()}</div>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handleClose}
+                className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleClose}
+                className="bg-violet-500 text-white px-4 py-2 rounded"
+              >
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
