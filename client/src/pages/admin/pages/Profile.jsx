@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import { useAuth } from "../../../stores/auth";
+import defaultProfile from "../../../images/default-profile.jpg";
+import { IoClose } from "react-icons/io5";
 
 export const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [editSection, setEditSection] = useState(null);
+  const { user } = useAuth();
 
   const handleEditClick = (section) => {
     setEditSection(section);
@@ -17,17 +21,66 @@ export const Profile = () => {
     setEditSection(null);
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // Handle image selection
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   const renderModalContent = () => {
     switch (editSection) {
       case "profile":
         return (
-          <div>
+          <div className="flex flex-col gap-5">
             {/* Add form fields for editing the profile section here */}
-            <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Name"
-            />
+            <figure className="flex justify-center">
+              <label
+                htmlFor="profile-upload"
+                className="relative cursor-pointer w-fit block"
+              >
+                {selectedImage ? (
+                  <img
+                    src={selectedImage}
+                    alt="Profile Preview"
+                    className="w-40 h-40 rounded-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src={defaultProfile}
+                    alt="Profile Preview"
+                    className="w-40 h-40 rounded-full object-cover"
+                  />
+                )}
+                <input
+                  id="profile-upload"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
+              </label>
+            </figure>
+            <div className="flex gap-5">
+              <input
+                type="text"
+                className="w-full p-2 border border-gray-200 outline-none rounded"
+                placeholder="First Name"
+                defaultValue={user.firstname ? user.firstname : ""}
+              />
+              <input
+                type="text"
+                className="w-full p-2 border border-gray-200 outline-none rounded"
+                placeholder="Last Name"
+                defaultValue={user.lastname ? user.lastname : ""}
+              />
+            </div>
           </div>
         );
       case "summary":
@@ -103,7 +156,9 @@ export const Profile = () => {
               <div className="h-4 w-4 bg-green-400 rounded-full absolute top-[10%] left-[1%] border-2 border-white"></div>
             </figure>
             <div>
-              <h2 className="text-3xl font-semibold">Pawan Kumavat</h2>
+              <h2 className="text-3xl font-semibold capitalize">
+                {user?.firstname + " " + user?.lastname}
+              </h2>
               <p className="flex gap-1 items-center font-medium text-zinc-500 mt-2">
                 <span>
                   <GrLocation />
@@ -306,8 +361,8 @@ export const Profile = () => {
           <div className="bg-white p-8 rounded-lg max-w-lg w-full">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold">Edit {editSection}</h2>
-              <button onClick={handleClose} className="text-gray-400">
-                &times;
+              <button onClick={handleClose} className="text-gray-400 text-3xl">
+                <IoClose />
               </button>
             </div>
             <div className="mt-4">{renderModalContent()}</div>

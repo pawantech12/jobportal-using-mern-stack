@@ -2,6 +2,90 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+// Schema for storing individual skill
+const skillSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+});
+
+// Schema for storing education details
+const educationSchema = new mongoose.Schema({
+  degree: {
+    type: String,
+    required: true,
+  },
+  institution: {
+    type: String,
+    required: true,
+  },
+  startYear: {
+    type: Number, // Storing only the year
+    required: true,
+  },
+  endYear: {
+    type: Number, // Storing only the year
+    required: false,
+  },
+  description: {
+    type: String,
+    default: "",
+  },
+});
+
+// Schema for storing certification details
+const certificationSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  issuingOrganization: {
+    type: String,
+    required: true,
+  },
+  issueDate: {
+    type: Date,
+    required: true,
+  },
+  expirationDate: {
+    type: Date,
+    required: false,
+  },
+  credentialUrl: {
+    type: String,
+    required: true, // Certificate URL
+  },
+  description: {
+    type: String,
+    default: "",
+  },
+});
+
+// Schema for storing experience details
+const experienceSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  company: {
+    type: String,
+    required: true,
+  },
+  startDate: {
+    type: String,
+    required: true,
+  },
+  endDate: {
+    type: String,
+    required: false,
+  },
+  description: {
+    type: String,
+    required: false,
+  },
+});
+
 const userSchema = new mongoose.Schema({
   firstname: {
     type: String,
@@ -64,6 +148,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  headline: {
+    type: String,
+    required: false,
+  },
+  summary: {
+    type: String,
+    required: false,
+  },
+  skills: [skillSchema],
+  education: [educationSchema],
+  certifications: [certificationSchema],
+  experiences: [experienceSchema],
 });
 
 userSchema.pre("save", async function (next) {

@@ -13,6 +13,8 @@ export const Login = () => {
   } = useForm();
   const { storeTokenInLS } = useAuth(); // Storing token in localStorage or any other state management
   const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState();
+  const [success, setSuccess] = useState();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -28,9 +30,12 @@ export const Login = () => {
         setTimeout(() => {
           navigate("/dashboard"); // Replace with your dashboard route
         }, 3000);
+        setSuccess(response.data.msg);
       }
+      setMsg(response.data.message);
     } catch (error) {
       console.error("Login failed:", error);
+      setMsg(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -47,6 +52,19 @@ export const Login = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-3 mt-8"
         >
+          {success || msg ? (
+            !success && msg ? (
+              <p className="text-red-700 bg-red-100 py-2 px-4 text-center font-medium rounded-md">
+                {msg}
+              </p>
+            ) : (
+              <p className="text-emerald-600 bg-emerald-100 py-2 px-4 text-center font-medium rounded-md">
+                {success}
+              </p>
+            )
+          ) : (
+            ""
+          )}
           <div className="flex flex-col gap-1">
             <label className="text-base font-medium" htmlFor="email">
               Email
