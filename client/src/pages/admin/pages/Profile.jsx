@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { useAuth } from "../../../stores/auth";
+import axios from "axios";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import defaultProfile from "../../../images/default-profile.jpg";
-import { IoClose } from "react-icons/io5";
+
+import { storage } from "../../../../firebase/firebase";
+import { EditProfileModel } from "../components/EditProfileModel";
+import { useForm } from "react-hook-form";
+import { EditSummaryModel } from "../components/EditSummaryModel";
 
 export const Profile = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [showModal, setShowModal] = useState(false);
   const [editSection, setEditSection] = useState(null);
-  const { user } = useAuth();
+  const { user, token, setUser } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const handleEditClick = (section) => {
     setEditSection(section);
@@ -22,123 +34,73 @@ export const Profile = () => {
   };
 
   const [selectedImage, setSelectedImage] = useState(null);
-
-  // Handle image selection
+  const [imageFile, setImageFile] = useState(null); // File to be uploaded
+  const [imageUploadProgress, setImageUploadProgress] = useState(0);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Preview the image
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
+      reader.onloadend = () => setSelectedImage(reader.result);
       reader.readAsDataURL(file);
+
+      // Store the file for uploading later
+      setImageFile(file);
     }
   };
-  const renderModalContent = () => {
-    switch (editSection) {
-      case "profile":
-        return (
-          <div className="flex flex-col gap-5">
-            {/* Add form fields for editing the profile section here */}
-            <figure className="flex justify-center">
-              <label
-                htmlFor="profile-upload"
-                className="relative cursor-pointer w-fit block"
-              >
-                {selectedImage ? (
-                  <img
-                    src={selectedImage}
-                    alt="Profile Preview"
-                    className="w-40 h-40 rounded-full object-cover"
-                  />
-                ) : (
-                  <img
-                    src={defaultProfile}
-                    alt="Profile Preview"
-                    className="w-40 h-40 rounded-full object-cover"
-                  />
-                )}
-                <input
-                  id="profile-upload"
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-              </label>
-            </figure>
-            <div className="flex gap-5">
-              <input
-                type="text"
-                className="w-full p-2 border border-gray-200 outline-none rounded"
-                placeholder="First Name"
-                defaultValue={user.firstname ? user.firstname : ""}
-              />
-              <input
-                type="text"
-                className="w-full p-2 border border-gray-200 outline-none rounded"
-                placeholder="Last Name"
-                defaultValue={user.lastname ? user.lastname : ""}
-              />
-            </div>
-          </div>
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    let profileImageUrl = user?.profileImg || ""; // Default to existing profile image
+
+    // Upload to Firebase only if a new image was selected
+    if (imageFile) {
+      const storageRef = ref(storage, `profile_images/${imageFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+      await new Promise((resolve, reject) => {
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            setImageUploadProgress(progress);
+          },
+          (error) => reject(error),
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((downloadURL) => {
+                profileImageUrl = downloadURL;
+                resolve();
+              })
+              .catch(reject);
+          }
         );
-      case "summary":
-        return (
-          <div>
-            {/* Add form fields for editing the summary section here */}
-            <textarea
-              className="w-full p-2 border rounded"
-              placeholder="Summary"
-            ></textarea>
-          </div>
-        );
-      case "skills":
-        return (
-          <div>
-            {/* Add form fields for editing the skills section here */}
-            <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Skills"
-            />
-          </div>
-        );
-      case "education":
-        return (
-          <div>
-            {/* Add form fields for editing the education section here */}
-            <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Education"
-            />
-          </div>
-        );
-      case "certifications":
-        return (
-          <div>
-            {/* Add form fields for editing the certifications section here */}
-            <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Certifications"
-            />
-          </div>
-        );
-      case "experience":
-        return (
-          <div>
-            {/* Add form fields for editing the experience section here */}
-            <input
-              type="text"
-              className="w-full p-2 border rounded"
-              placeholder="Experience"
-            />
-          </div>
-        );
-      default:
-        return null;
+      });
+    }
+    if (profileImageUrl) {
+      data.profileImg = profileImageUrl;
+    }
+    console.log("Data sending to backend: ", data);
+
+    // Submit form data along with the image URL to the backend
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/api/user/update-${editSection}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setUser(response.data.user);
+      console.log("Response d:", response.data);
+      handleClose();
+    } catch (error) {
+      console.error(`Failed to update profile: ${editSection}`, error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -149,7 +111,7 @@ export const Profile = () => {
           <div className="flex gap-2 items-center">
             <figure className="relative">
               <img
-                src="https://www.upwork.com/profile-portraits/c1GZyQ4XcjQCcIa39aX4z9ccw8w8Y7hplJN-JYzxAn-a1CntFoqs3qc4ZHKZx8LRXY"
+                src={user?.profileImg ? user?.profileImg : defaultProfile}
                 alt=""
                 className="rounded-full w-24 h-24"
               />
@@ -178,21 +140,14 @@ export const Profile = () => {
         <div className="mt-5 border border-gray-200 p-8 rounded-xl relative">
           <div className="flex justify-between items-center">
             <h4 className="text-xl font-semibold text-neutral-600">
-              Full-Stack Developer: HTML, CSS, JS, React, Node.js & More
+              {user?.headline}
             </h4>
             <FaEdit
               className="text-xl text-gray-400 cursor-pointer"
               onClick={() => handleEditClick("summary")}
             />
           </div>
-          <p className="text-zinc-500 mt-3">
-            I'm a passionate web developer with a strong foundation in both
-            front-end and back-end technologies. I possess expertise in building
-            modern and interactive web applications using ReactJS, Node.js
-            (Express.js), MongoDB, and other popular frameworks. My skillset
-            also encompasses HTML, CSS, JavaScript, Tailwind CSS, Bootstrap, and
-            database management with MySQL and PHP.
-          </p>
+          <p className="text-zinc-500 mt-3">{user?.summary}</p>
         </div>
 
         <div className="mt-5 border border-gray-200 p-8 rounded-xl relative">
@@ -356,32 +311,31 @@ export const Profile = () => {
         </div>
       </section>
 
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-lg max-w-lg w-full">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Edit {editSection}</h2>
-              <button onClick={handleClose} className="text-gray-400 text-3xl">
-                <IoClose />
-              </button>
-            </div>
-            <div className="mt-4">{renderModalContent()}</div>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={handleClose}
-                className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
-              >
-                Close
-              </button>
-              <button
-                onClick={handleClose}
-                className="bg-violet-500 text-white px-4 py-2 rounded"
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
+      {editSection == "profile" && (
+        <EditProfileModel
+          register={register}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          errors={errors}
+          handleImageChange={handleImageChange}
+          editSection={editSection}
+          selectedImage={selectedImage}
+          user={user}
+          loading={loading}
+        />
+      )}
+      {editSection == "summary" && (
+        <EditSummaryModel
+          register={register}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          errors={errors}
+          editSection={editSection}
+          user={user}
+          loading={loading}
+        />
       )}
     </>
   );

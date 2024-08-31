@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const router = require("./routers/AuthRouter");
 const connectDB = require("./utils/DB");
+const UpdateSectionRouter = require("./routers/UpdateSectionRouter");
 
 app.use(express.json());
 const corsOptions = {
@@ -15,6 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use("/api/auth", router);
+app.use("/api", UpdateSectionRouter);
 
 const port = process.env.PORT;
 connectDB().then(() => {

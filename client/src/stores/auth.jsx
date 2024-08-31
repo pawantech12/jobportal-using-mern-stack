@@ -42,7 +42,9 @@ export const AuthProvider = ({ children }) => {
   console.log("current user:", user);
 
   return (
-    <AuthContext.Provider value={{ storeTokenInLS, logout, token, user }}>
+    <AuthContext.Provider
+      value={{ storeTokenInLS, logout, token, user, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );
