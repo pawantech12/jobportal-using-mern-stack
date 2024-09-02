@@ -1,9 +1,9 @@
 const User = require("../models/UserModel");
-
 const UpdateSection = async (req, res) => {
   const { section } = req.params;
   const userId = req.user.userId; // Assuming you have middleware to extract user ID from JWT
   const updateData = req.body; // This will contain the fields to update
+  console.log("updte dt: ", updateData);
 
   try {
     let user = await User.findById(userId);
@@ -18,8 +18,32 @@ const UpdateSection = async (req, res) => {
       return res.status(400).json({ error: "Skills must be an array" });
     }
 
+    if (section === "education") {
+      if (Array.isArray(updateData.education)) {
+        user.education = updateData.education; // Update the entire education array
+      } else {
+        return res.status(400).json({ error: "Education must be an array" });
+      }
+    }
+    if (section === "certifications") {
+      if (Array.isArray(updateData.certifications)) {
+        user.certifications = updateData.certifications; // Update the entire education array
+      } else {
+        return res
+          .status(400)
+          .json({ error: "Certifications must be an array" });
+      }
+    }
+
+    // Update other fields dynamically
     Object.keys(updateData).forEach((key) => {
-      if (updateData[key] !== undefined && updateData[key] !== null) {
+      if (
+        updateData[key] !== undefined &&
+        updateData[key] !== null &&
+        key !== "education" &&
+        key !== "certifications" &&
+        key !== "skills"
+      ) {
         user[key] = updateData[key];
       }
     });

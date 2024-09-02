@@ -12,6 +12,8 @@ import { EditProfileModel } from "../components/EditProfileModel";
 import { useForm } from "react-hook-form";
 import { EditSummaryModel } from "../components/EditSummaryModel";
 import { EditSkillModel } from "../components/EditSkillModel";
+import { AddEducationModal } from "../components/AddEducationModel";
+import { AddCertificationModel } from "../components/AddCertificationModel";
 
 export const Profile = () => {
   const {
@@ -49,6 +51,10 @@ export const Profile = () => {
       setImageFile(file);
     }
   };
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "long" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -82,6 +88,16 @@ export const Profile = () => {
     if (profileImageUrl) {
       data.profileImg = profileImageUrl;
     }
+    const updateData = {
+      headline: data.headline,
+      summary: data.summary,
+      skills: data.skills,
+      profileImage: data.profileImg,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      education: [data.education], // Wrap education in an array if it's just one entry
+      certifications: [data.certifications], // Wrap education in an array if it's just one entry
+    };
 
     console.log("Data sending to backend: ", data);
 
@@ -89,7 +105,7 @@ export const Profile = () => {
     try {
       const response = await axios.put(
         `http://localhost:3000/api/user/update-${editSection}`,
-        data,
+        updateData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -188,28 +204,38 @@ export const Profile = () => {
           </div>
           <div className="mt-4">
             <ul>
-              <li className="border border-gray-200 rounded-xl p-6">
-                <div>
-                  <div className="flex justify-between items-center">
+              {user?.education.length ? (
+                user?.education?.map((edu, index) => (
+                  <li
+                    key={index}
+                    className="border border-gray-200 rounded-xl p-6"
+                  >
                     <div>
-                      <h3 className="text-lg font-semibold text-neutral-700">
-                        Bachelor of Science in Computer Science
-                      </h3>
-                      <p className="text-base font-medium text-zinc-700">
-                        K.M. Agrawal College of Arts, Commerce and Science
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <h3 className="text-lg font-semibold text-neutral-700">
+                            {edu?.degree}
+                          </h3>
+                          <p className="text-base font-medium text-zinc-700">
+                            {edu?.institution}
+                          </p>
+                        </div>
+                        <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">
+                          {new Date(edu?.startYear).getFullYear()} -{" "}
+                          {edu.endYear
+                            ? new Date(edu?.endYear).getFullYear()
+                            : "Present"}
+                        </span>
+                      </div>
+                      <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
+                        {edu?.description}
                       </p>
                     </div>
-                    <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">
-                      2021-2024
-                    </span>
-                  </div>
-                  <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
-                    Pursuing Bachelor of Science in Computer Science at K.M.
-                    Agrawal College, honing my skills in programming, data
-                    structures, algorithms, and software development.
-                  </p>
-                </div>
-              </li>
+                  </li>
+                ))
+              ) : (
+                <p>No Education has been added</p>
+              )}
             </ul>
           </div>
         </div>
@@ -226,40 +252,50 @@ export const Profile = () => {
           </div>
           <div className="mt-4">
             <ul>
-              <li className="border border-gray-200 rounded-xl p-6">
-                <div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                      <figure>
-                        <img
-                          src="https://media.licdn.com/dms/image/D4E2DAQGHAZl_SthgtA/profile-treasury-image-shrink_160_160/0/1711081860730?e=1721044800&v=beta&t=s6X3HroBaabPYFjURbtr3KUTZrHexFDRYdEIwqVbgs0"
-                          alt=""
-                          className="w-24 h-20 rounded-md"
-                        />
-                      </figure>
-                      <div>
-                        <h3 className="text-lg font-semibold text-neutral-700">
-                          Back End Development and APIs
-                        </h3>
-                        <p className="text-base font-medium text-zinc-700">
-                          freeCodeCamp
-                        </p>
-                        <button className="text-sm border-2 rounded-full px-3 py-1 border-violet-400 mt-2 font-medium hover:bg-violet-400 hover:text-white transition-all ease-in-out duration-200">
-                          <Link>Show Credentials</Link>
-                        </button>
+              {user?.certifications.length ? (
+                user?.certifications?.map((cert, index) => (
+                  <li
+                    key={index}
+                    className="border border-gray-200 rounded-xl p-6"
+                  >
+                    <div>
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          <figure>
+                            <img
+                              src="https://media.licdn.com/dms/image/D4E2DAQGHAZl_SthgtA/profile-treasury-image-shrink_160_160/0/1711081860730?e=1721044800&v=beta&t=s6X3HroBaabPYFjURbtr3KUTZrHexFDRYdEIwqVbgs0"
+                              alt=""
+                              className="w-24 h-20 rounded-md"
+                            />
+                          </figure>
+                          <div>
+                            <h3 className="text-lg font-semibold text-neutral-700">
+                              {cert.title}
+                            </h3>
+                            <p className="text-base font-medium text-zinc-700">
+                              {cert.issuissuingOrganization}
+                            </p>
+                            <button className="text-sm border-2 rounded-full px-3 py-1 border-violet-400 mt-2 font-medium hover:bg-violet-400 hover:text-white transition-all ease-in-out duration-200">
+                              <Link to={cert.credentialUrl}>
+                                Show Credentials
+                              </Link>
+                            </button>
+                          </div>
+                        </div>
+                        <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">
+                          {formatDate(cert.issueDate)} -{" "}
+                          {formatDate(cert.expirationDate)}
+                        </span>
                       </div>
+                      <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
+                        {cert.description}
+                      </p>
                     </div>
-                    <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">
-                      March, 2024 - March, 2026
-                    </span>
-                  </div>
-                  <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
-                    Earned a certificate in Back-End Development and APIs from
-                    freeCodeCamp,solidifying foundational skills in server-side
-                    development and API integration
-                  </p>
-                </div>
-              </li>
+                  </li>
+                ))
+              ) : (
+                <p>No Certifications has been added</p>
+              )}
             </ul>
           </div>
         </div>
@@ -348,6 +384,28 @@ export const Profile = () => {
           onSubmit={onSubmit}
           errors={errors}
           editSection={editSection}
+          user={user}
+          loading={loading}
+        />
+      )}
+      {editSection === "education" && (
+        <AddEducationModal
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          register={register}
+          onSubmit={onSubmit}
+          errors={errors}
+          user={user}
+          loading={loading}
+        />
+      )}
+      {editSection === "certifications" && (
+        <AddCertificationModel
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          register={register}
+          onSubmit={onSubmit}
+          errors={errors}
           user={user}
           loading={loading}
         />
