@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
@@ -14,6 +14,7 @@ import { EditSummaryModel } from "../components/EditSummaryModel";
 import { EditSkillModel } from "../components/EditSkillModel";
 import { AddEducationModal } from "../components/AddEducationModel";
 import { AddCertificationModel } from "../components/AddCertificationModel";
+import { io } from "socket.io-client";
 
 export const Profile = () => {
   const {
@@ -25,6 +26,36 @@ export const Profile = () => {
   const [editSection, setEditSection] = useState(null);
   const { user, token, setUser } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [isOnline, setIsOnline] = useState(false);
+  const userId = user?._id;
+
+  useEffect(() => {
+    if (!userId) return; // Ensure userId is provided
+
+    // Connect to WebSocket server with userId as a query parameter
+    const socket = io("http://localhost:3000", { query: { userId } });
+
+    console.log("Connecting to WebSocket...");
+
+    socket.on("connect", () => {
+      console.log("WebSocket connected");
+    });
+
+    // Listen for status updates
+    socket.on("userStatusUpdate", (data) => {
+      console.log("Status update received:", data);
+      if (data.userId === userId) {
+        setIsOnline(data.isOnline);
+      }
+    });
+
+    // Cleanup on unmount
+    return () => {
+      socket.off("userStatusUpdate");
+      socket.disconnect();
+      console.log("WebSocket disconnected");
+    };
+  }, [userId]);
 
   const handleEditClick = (section) => {
     setEditSection(section);
@@ -133,7 +164,11 @@ export const Profile = () => {
                 alt=""
                 className="rounded-full w-24 h-24"
               />
-              <div className="h-4 w-4 bg-green-400 rounded-full absolute top-[10%] left-[1%] border-2 border-white"></div>
+              {isOnline ? (
+                <div className="h-4 w-4 bg-green-400 rounded-full absolute top-[10%] left-[1%] border-2 border-white"></div>
+              ) : (
+                <div className="h-4 w-4 bg-zinc-300 rounded-full absolute top-[10%] left-[1%] border-2 border-white"></div>
+              )}
             </figure>
             <div>
               <h2 className="text-3xl font-semibold capitalize">
