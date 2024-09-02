@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
   summary: { type: String },
   candidates: { type: mongoose.Schema.Types.ObjectId, ref: "Candidate" },
   employers: { type: mongoose.Schema.Types.ObjectId, ref: "Employer" },
+  skills: [{ type: String }],
   createdAt: { type: Date, default: Date.now },
 });
 

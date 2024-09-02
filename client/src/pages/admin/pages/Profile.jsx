@@ -11,6 +11,7 @@ import { storage } from "../../../../firebase/firebase";
 import { EditProfileModel } from "../components/EditProfileModel";
 import { useForm } from "react-hook-form";
 import { EditSummaryModel } from "../components/EditSummaryModel";
+import { EditSkillModel } from "../components/EditSkillModel";
 
 export const Profile = () => {
   const {
@@ -81,6 +82,7 @@ export const Profile = () => {
     if (profileImageUrl) {
       data.profileImg = profileImageUrl;
     }
+
     console.log("Data sending to backend: ", data);
 
     // Submit form data along with the image URL to the backend
@@ -159,15 +161,17 @@ export const Profile = () => {
             />
           </div>
           <div className="mt-5 flex gap-3 items-center flex-wrap">
-            {["HTML", "CSS", "JavaScript", "React", "Node.js"].map(
-              (skill, index) => (
+            {user?.skills.length ? (
+              user?.skills.map((skill, index) => (
                 <span
                   key={index}
                   className="bg-zinc-100 px-3 py-2 text-sm rounded-full font-medium"
                 >
                   {skill}
                 </span>
-              )
+              ))
+            ) : (
+              <p>No Skills has been added</p>
             )}
           </div>
         </div>
@@ -328,6 +332,17 @@ export const Profile = () => {
       {editSection == "summary" && (
         <EditSummaryModel
           register={register}
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+          errors={errors}
+          editSection={editSection}
+          user={user}
+          loading={loading}
+        />
+      )}
+      {editSection === "skills" && (
+        <EditSkillModel
           handleClose={handleClose}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}

@@ -6,21 +6,24 @@ const UpdateSection = async (req, res) => {
   const updateData = req.body; // This will contain the fields to update
 
   try {
-    // Find the user by ID
     let user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Iterate over the updateData to update only the provided fields
+    if (section === "skills" && Array.isArray(updateData.skills)) {
+      user.skills = updateData.skills; // Directly store skill names
+    } else if (section === "skills") {
+      return res.status(400).json({ error: "Skills must be an array" });
+    }
+
     Object.keys(updateData).forEach((key) => {
       if (updateData[key] !== undefined && updateData[key] !== null) {
         user[key] = updateData[key];
       }
     });
 
-    // Save the updated user
     await user.save();
 
     res.status(200).json({ message: `${section} updated successfully`, user });
