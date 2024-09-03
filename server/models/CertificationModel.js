@@ -10,4 +10,6 @@ const certificationSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = certificationSchema;
+const Certification = mongoose.model("Certification", certificationSchema);
+
+module.exports = Certification;

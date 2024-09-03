@@ -25,9 +25,11 @@ const userSchema = new mongoose.Schema({
   summary: { type: String },
   candidates: { type: mongoose.Schema.Types.ObjectId, ref: "Candidate" },
   employers: { type: mongoose.Schema.Types.ObjectId, ref: "Employer" },
-  education: [educationSchema],
+  education: [{ type: mongoose.Schema.Types.ObjectId, ref: "Education" }],
   skills: [{ type: String }],
-  certifications: [certificationSchema],
+  certifications: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Certification" },
+  ],
   createdAt: { type: Date, default: Date.now },
 });
 

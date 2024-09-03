@@ -89,8 +89,6 @@ EditSummaryModel.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   register: PropTypes.func.isRequired,
-  handleImageChange: PropTypes.func.isRequired,
-  selectedImage: PropTypes.string,
   editSection: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

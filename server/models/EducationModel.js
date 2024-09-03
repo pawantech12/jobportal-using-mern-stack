@@ -9,5 +9,5 @@ const educationSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// const Education = mongoose.model("Education", educationSchema);
-module.exports = educationSchema;
+const Education = mongoose.model("Education", educationSchema);
+module.exports = Education;

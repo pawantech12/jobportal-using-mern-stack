@@ -15,5 +15,5 @@ const companySchema = new mongoose.Schema({
   bookmark: { type: Boolean, default: false },
 });
 
-const Company = mongoose.model("Company", companySchema);
-module.exports = Company;
+// const Company = mongoose.model("Company", companySchema);
+module.exports = companySchema;

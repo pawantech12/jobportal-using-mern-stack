@@ -116,7 +116,8 @@ export const Profile = () => {
         );
       });
     }
-    if (profileImageUrl) {
+    // Prepare the data for the correct section
+    if (editSection === "profile" && profileImageUrl) {
       data.profileImg = profileImageUrl;
     }
     const updateData = {
@@ -126,8 +127,8 @@ export const Profile = () => {
       profileImage: data.profileImg,
       firstname: data.firstname,
       lastname: data.lastname,
-      education: [data.education], // Wrap education in an array if it's just one entry
-      certifications: [data.certifications], // Wrap education in an array if it's just one entry
+      education: [data], // Wrap education in an array if it's just one entry
+      certifications: [data], // Wrap education in an array if it's just one entry
     };
 
     console.log("Data sending to backend: ", data);
@@ -239,7 +240,7 @@ export const Profile = () => {
           </div>
           <div className="mt-4">
             <ul>
-              {user?.education.length ? (
+              {user?.education?.length ? (
                 user?.education?.map((edu, index) => (
                   <li
                     key={index}
@@ -287,7 +288,7 @@ export const Profile = () => {
           </div>
           <div className="mt-4">
             <ul>
-              {user?.certifications.length ? (
+              {user?.certifications?.length ? (
                 user?.certifications?.map((cert, index) => (
                   <li
                     key={index}
@@ -365,9 +366,6 @@ export const Profile = () => {
                         <p className="text-base font-medium text-zinc-700">
                           Upwork · <span>Freelance</span>
                         </p>
-                        <button className="text-sm border-2 rounded-full px-3 py-1 border-violet-400 mt-2 font-medium hover:bg-violet-400 hover:text-white transition-all ease-in-out duration-200">
-                          <Link>Show Credentials</Link>
-                        </button>
                       </div>
                     </div>
                     <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">

@@ -1,9 +1,13 @@
 const User = require("../models/UserModel");
+const Education = require("../models/EducationModel");
+const Certification = require("../models/CertificationModel");
+
 const UpdateSection = async (req, res) => {
   const { section } = req.params;
-  const userId = req.user.userId; // Assuming you have middleware to extract user ID from JWT
-  const updateData = req.body; // This will contain the fields to update
-  console.log("updte dt: ", updateData);
+  const userId = req.user.userId;
+  const updateData = req.body;
+  // Log received data
+  console.log("Received Update Data:", updateData);
 
   try {
     let user = await User.findById(userId);
@@ -12,41 +16,49 @@ const UpdateSection = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (section === "skills" && Array.isArray(updateData.skills)) {
-      user.skills = updateData.skills; // Directly store skill names
-    } else if (section === "skills") {
-      return res.status(400).json({ error: "Skills must be an array" });
+    // Update the user's main fields like profileImg or other details
+    if (section === "profile") {
+      Object.keys(updateData).forEach((key) => {
+        if (updateData[key] !== undefined && updateData[key] !== null) {
+          user[key] = updateData[key];
+        }
+      });
     }
 
     if (section === "education") {
-      if (Array.isArray(updateData.education)) {
-        user.education = updateData.education; // Update the entire education array
-      } else {
+      // Validate received data
+      if (!Array.isArray(updateData.education)) {
         return res.status(400).json({ error: "Education must be an array" });
       }
+
+      // Log the education data specifically
+      console.log("Education Data:", updateData.education);
+
+      // Insert education documents
+      const educationDocs = await Education.insertMany(updateData.education);
+      user.education = educationDocs.map((doc) => doc._id);
     }
+
+    // Handling certifications separately
     if (section === "certifications") {
-      if (Array.isArray(updateData.certifications)) {
-        user.certifications = updateData.certifications; // Update the entire education array
-      } else {
+      // Validate received data
+      if (!Array.isArray(updateData.certifications)) {
         return res
           .status(400)
           .json({ error: "Certifications must be an array" });
       }
+      const certificationDocs = await Certification.insertMany(
+        updateData.certifications
+      );
+      user.certifications = certificationDocs.map((doc) => doc._id);
     }
 
-    // Update other fields dynamically
-    Object.keys(updateData).forEach((key) => {
-      if (
-        updateData[key] !== undefined &&
-        updateData[key] !== null &&
-        key !== "education" &&
-        key !== "certifications" &&
-        key !== "skills"
-      ) {
-        user[key] = updateData[key];
-      }
-    });
+    // Handling skills separately
+    if (section === "skills" && Array.isArray(updateData.skills)) {
+      user.skills = updateData.skills;
+    } else if (section === "skills") {
+      return res.status(400).json({ error: "Skills must be an array" });
+    }
 
     await user.save();
 
