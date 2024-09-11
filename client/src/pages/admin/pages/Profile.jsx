@@ -120,7 +120,6 @@ export const Profile = () => {
     if (editSection === "profile" && profileImageUrl) {
       data.profileImg = profileImageUrl;
     }
-<<<<<<< HEAD
     // const updateData = {
     //   headline: data.headline,
     //   summary: data.summary,
@@ -131,18 +130,6 @@ export const Profile = () => {
     //   education: [data], // Wrap education in an array if it's just one entry
     //   certifications: [data], // Wrap education in an array if it's just one entry
     // };
-=======
-    const updateData = {
-      headline: data.headline,
-      summary: data.summary,
-      skills: data.skills,
-      profileImage: data.profileImg,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      education: [data], // Wrap education in an array if it's just one entry
-      certifications: [data], // Wrap education in an array if it's just one entry
-    };
->>>>>>> 482f53e51609da67eda307a125deb1c8cb709e54
 
     console.log("Data sending to backend: ", data);
 
@@ -252,13 +239,8 @@ export const Profile = () => {
             />
           </div>
           <div className="mt-4">
-<<<<<<< HEAD
             <ul className="flex flex-col gap-5">
               {user?.education.length ? (
-=======
-            <ul>
-              {user?.education?.length ? (
->>>>>>> 482f53e51609da67eda307a125deb1c8cb709e54
                 user?.education?.map((edu, index) => (
                   <li
                     key={index}
