@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrLocation } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
@@ -14,6 +14,7 @@ import { EditSummaryModel } from "../components/EditSummaryModel";
 import { EditSkillModel } from "../components/EditSkillModel";
 import { AddEducationModal } from "../components/AddEducationModel";
 import { AddCertificationModel } from "../components/AddCertificationModel";
+import { io } from "socket.io-client";
 
 export const Profile = () => {
   const {
@@ -25,6 +26,36 @@ export const Profile = () => {
   const [editSection, setEditSection] = useState(null);
   const { user, token, setUser } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [isOnline, setIsOnline] = useState(false);
+  const userId = user?._id;
+
+  useEffect(() => {
+    if (!userId) return; // Ensure userId is provided
+
+    // Connect to WebSocket server with userId as a query parameter
+    const socket = io("http://localhost:3000", { query: { userId } });
+
+    console.log("Connecting to WebSocket...");
+
+    socket.on("connect", () => {
+      console.log("WebSocket connected");
+    });
+
+    // Listen for status updates
+    socket.on("userStatusUpdate", (data) => {
+      console.log("Status update received:", data);
+      if (data.userId === userId) {
+        setIsOnline(data.isOnline);
+      }
+    });
+
+    // Cleanup on unmount
+    return () => {
+      socket.off("userStatusUpdate");
+      socket.disconnect();
+      console.log("WebSocket disconnected");
+    };
+  }, [userId]);
 
   const handleEditClick = (section) => {
     setEditSection(section);
@@ -85,9 +116,11 @@ export const Profile = () => {
         );
       });
     }
-    if (profileImageUrl) {
+    // Prepare the data for the correct section
+    if (editSection === "profile" && profileImageUrl) {
       data.profileImg = profileImageUrl;
     }
+<<<<<<< HEAD
     // const updateData = {
     //   headline: data.headline,
     //   summary: data.summary,
@@ -98,6 +131,18 @@ export const Profile = () => {
     //   education: [data], // Wrap education in an array if it's just one entry
     //   certifications: [data], // Wrap education in an array if it's just one entry
     // };
+=======
+    const updateData = {
+      headline: data.headline,
+      summary: data.summary,
+      skills: data.skills,
+      profileImage: data.profileImg,
+      firstname: data.firstname,
+      lastname: data.lastname,
+      education: [data], // Wrap education in an array if it's just one entry
+      certifications: [data], // Wrap education in an array if it's just one entry
+    };
+>>>>>>> 482f53e51609da67eda307a125deb1c8cb709e54
 
     console.log("Data sending to backend: ", data);
 
@@ -133,7 +178,11 @@ export const Profile = () => {
                 alt=""
                 className="rounded-full w-24 h-24"
               />
-              <div className="h-4 w-4 bg-green-400 rounded-full absolute top-[10%] left-[1%] border-2 border-white"></div>
+              {isOnline ? (
+                <div className="h-4 w-4 bg-green-400 rounded-full absolute top-[10%] left-[1%] border-2 border-white"></div>
+              ) : (
+                <div className="h-4 w-4 bg-zinc-300 rounded-full absolute top-[10%] left-[1%] border-2 border-white"></div>
+              )}
             </figure>
             <div>
               <h2 className="text-3xl font-semibold capitalize">
@@ -203,8 +252,13 @@ export const Profile = () => {
             />
           </div>
           <div className="mt-4">
+<<<<<<< HEAD
             <ul className="flex flex-col gap-5">
               {user?.education.length ? (
+=======
+            <ul>
+              {user?.education?.length ? (
+>>>>>>> 482f53e51609da67eda307a125deb1c8cb709e54
                 user?.education?.map((edu, index) => (
                   <li
                     key={index}
@@ -252,7 +306,7 @@ export const Profile = () => {
           </div>
           <div className="mt-4">
             <ul>
-              {user?.certifications.length ? (
+              {user?.certifications?.length ? (
                 user?.certifications?.map((cert, index) => (
                   <li
                     key={index}
@@ -330,9 +384,6 @@ export const Profile = () => {
                         <p className="text-base font-medium text-zinc-700">
                           Upwork · <span>Freelance</span>
                         </p>
-                        <button className="text-sm border-2 rounded-full px-3 py-1 border-violet-400 mt-2 font-medium hover:bg-violet-400 hover:text-white transition-all ease-in-out duration-200">
-                          <Link>Show Credentials</Link>
-                        </button>
                       </div>
                     </div>
                     <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">

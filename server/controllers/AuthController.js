@@ -87,7 +87,14 @@ const login = async (req, res) => {
 const getUserData = async (req, res) => {
   try {
     // Retrieve the user data using the user ID from the token payload
-    const user = await User.findById(req.user.userId).select("-password"); // Exclude password from response
+    const user = await User.findById(req.user.userId)
+      .select("-password")
+      .populate({
+        path: "education",
+      })
+      .populate({
+        path: "certifications",
+      });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

@@ -50,6 +50,13 @@ const UpdateSection = async (req, res) => {
       } catch (error) {
         console.log("Education Error:", error);
       }
+
+      // Log the education data specifically
+      console.log("Education Data:", updateData.education);
+
+      // Insert education documents
+      const educationDocs = await Education.insertMany(updateData.education);
+      user.education = educationDocs.map((doc) => doc._id);
     }
     // Special handling for education section
     if (section === "certifications") {
@@ -63,6 +70,10 @@ const UpdateSection = async (req, res) => {
       } catch (error) {
         console.log("Certification Error:", error);
       }
+      const certificationDocs = await Certification.insertMany(
+        updateData.certifications
+      );
+      user.certifications = certificationDocs.map((doc) => doc._id);
     }
 
     if (!updatedUser) {
