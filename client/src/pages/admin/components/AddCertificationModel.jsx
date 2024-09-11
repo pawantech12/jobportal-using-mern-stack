@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
 export const AddCertificationModel = ({
   handleClose,
@@ -7,6 +8,17 @@ export const AddCertificationModel = ({
   onSubmit,
   loading,
 }) => {
+  // Initialize React Hook Form
+  const { reset } = useForm();
+
+  const onFormSubmit = async (data) => {
+    // Transform the single entry into an array
+    const certificationArray = { certifications: [data] };
+    // Pass the transformed data to onSubmit
+    await onSubmit(certificationArray);
+    // Close the modal and reset form
+    reset();
+  };
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-5 rounded-lg max-w-lg w-full">
@@ -16,7 +28,7 @@ export const AddCertificationModel = ({
             <IoClose />
           </button>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-3">
+        <form onSubmit={handleSubmit(onFormSubmit)} className="mt-3">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <label htmlFor="title" className="text-base font-medium">

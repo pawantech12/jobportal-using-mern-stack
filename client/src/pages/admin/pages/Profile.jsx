@@ -88,16 +88,16 @@ export const Profile = () => {
     if (profileImageUrl) {
       data.profileImg = profileImageUrl;
     }
-    const updateData = {
-      headline: data.headline,
-      summary: data.summary,
-      skills: data.skills,
-      profileImage: data.profileImg,
-      firstname: data.firstname,
-      lastname: data.lastname,
-      education: [data.education], // Wrap education in an array if it's just one entry
-      certifications: [data.certifications], // Wrap education in an array if it's just one entry
-    };
+    // const updateData = {
+    //   headline: data.headline,
+    //   summary: data.summary,
+    //   skills: data.skills,
+    //   profileImage: data.profileImg,
+    //   firstname: data.firstname,
+    //   lastname: data.lastname,
+    //   education: [data], // Wrap education in an array if it's just one entry
+    //   certifications: [data], // Wrap education in an array if it's just one entry
+    // };
 
     console.log("Data sending to backend: ", data);
 
@@ -105,7 +105,7 @@ export const Profile = () => {
     try {
       const response = await axios.put(
         `http://localhost:3000/api/user/update-${editSection}`,
-        updateData,
+        data,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -203,7 +203,7 @@ export const Profile = () => {
             />
           </div>
           <div className="mt-4">
-            <ul>
+            <ul className="flex flex-col gap-5">
               {user?.education.length ? (
                 user?.education?.map((edu, index) => (
                   <li
