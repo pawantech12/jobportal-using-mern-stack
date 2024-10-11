@@ -10,6 +10,7 @@ const candidateSchema = new mongoose.Schema({
   ],
   experiences: [{ type: mongoose.Schema.Types.ObjectId, ref: "Experience" }],
   applications: [{ type: mongoose.Schema.Types.ObjectId, ref: "Application" }],
+  savedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobPost" }],
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -15,6 +15,9 @@ import { EditSkillModel } from "../components/EditSkillModel";
 import { AddEducationModal } from "../components/AddEducationModel";
 import { AddCertificationModel } from "../components/AddCertificationModel";
 import { io } from "socket.io-client";
+import certificationImg from "../../../images/certification-img.avif";
+import experienceImg from "../../../images/experience-img.avif";
+import { AddExperienceModel } from "../components/AddExperienceModel";
 
 export const Profile = () => {
   const {
@@ -144,7 +147,13 @@ export const Profile = () => {
           },
         }
       );
-      setUser(response.data.user);
+      console.log("edit section", editSection);
+
+      // Dynamically update the user state based on the editSection
+      setUser((prevUser) => ({
+        ...prevUser,
+        [editSection]: response.data.user[editSection], // Update the specific section dynamically
+      }));
       console.log("Response d:", response.data);
       handleClose();
     } catch (error) {
@@ -240,7 +249,7 @@ export const Profile = () => {
           </div>
           <div className="mt-4">
             <ul className="flex flex-col gap-5">
-              {user?.education.length ? (
+              {user?.education?.length ? (
                 user?.education?.map((edu, index) => (
                   <li
                     key={index}
@@ -299,8 +308,8 @@ export const Profile = () => {
                         <div className="flex items-center gap-3">
                           <figure>
                             <img
-                              src="https://media.licdn.com/dms/image/D4E2DAQGHAZl_SthgtA/profile-treasury-image-shrink_160_160/0/1711081860730?e=1721044800&v=beta&t=s6X3HroBaabPYFjURbtr3KUTZrHexFDRYdEIwqVbgs0"
-                              alt=""
+                              src={certificationImg}
+                              alt="certification img"
                               className="w-24 h-20 rounded-md"
                             />
                           </figure>
@@ -320,12 +329,16 @@ export const Profile = () => {
                         </div>
                         <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">
                           {formatDate(cert.issueDate)} -{" "}
-                          {formatDate(cert.expirationDate)}
+                          {cert.expirationDate
+                            ? formatDate(cert.expirationDate)
+                            : "Present"}
                         </span>
                       </div>
-                      <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
-                        {cert.description}
-                      </p>
+                      {cert.description && (
+                        <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
+                          {cert.description}
+                        </p>
+                      )}
                     </div>
                   </li>
                 ))
@@ -343,42 +356,52 @@ export const Profile = () => {
             </h4>
             <FaEdit
               className="text-xl text-gray-400 cursor-pointer"
-              onClick={() => handleEditClick("experience")}
+              onClick={() => handleEditClick("experiences")}
             />
           </div>
           <div className="mt-4">
             <ul>
-              <li className="border border-gray-200 rounded-xl p-6">
-                <div>
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center gap-3">
-                      <figure>
-                        <img
-                          src="https://media.licdn.com/dms/image/C4E0BAQFAvA55uI9RQQ/company-logo_100_100/0/1630655510176/upwork_logo?e=1728518400&v=beta&t=wiRSzbleLsYevgjvYCw2zOVHPsmpgWubCx6baBuDvQM"
-                          alt=""
-                          className="w-24 h-20 rounded-md"
-                        />
-                      </figure>
-                      <div>
-                        <h3 className="text-lg font-semibold text-neutral-700">
-                          Web Developer
-                        </h3>
-                        <p className="text-base font-medium text-zinc-700">
-                          Upwork · <span>Freelance</span>
-                        </p>
+              {user?.experiences?.length ? (
+                user?.experiences?.map((exp, index) => (
+                  <li
+                    className="border border-gray-200 rounded-xl p-6"
+                    key={index}
+                  >
+                    <div>
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3">
+                          <figure>
+                            <img
+                              src={experienceImg}
+                              alt="experience img"
+                              className="w-24 h-20 rounded-md"
+                            />
+                          </figure>
+                          <div>
+                            <h3 className="text-lg font-semibold text-neutral-700">
+                              {exp?.title}
+                            </h3>
+                            <p className="text-base font-medium text-zinc-700">
+                              {exp?.company} · <span>{exp?.type}</span>
+                            </p>
+                          </div>
+                        </div>
+                        <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">
+                          {formatDate(exp?.startDate)} -{" "}
+                          {exp?.endDate ? formatDate(exp?.endDate) : "Present"}
+                        </span>
                       </div>
+                      {exp?.description && (
+                        <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
+                          {exp?.description}
+                        </p>
+                      )}
                     </div>
-                    <span className="bg-zinc-100 px-4 py-1 rounded-md text-sm font-medium">
-                      Jun 2024 - Present
-                    </span>
-                  </div>
-                  <p className="text-sm italic font-medium bg-zinc-100 px-3 py-2 rounded-md mt-3">
-                    Leveraging full-stack development skills to craft
-                    high-performance web applications and landing pages for
-                    clients on Upwork.
-                  </p>
-                </div>
-              </li>
+                  </li>
+                ))
+              ) : (
+                <p>No Experience has been added</p>
+              )}
             </ul>
           </div>
         </div>
@@ -438,8 +461,15 @@ export const Profile = () => {
           handleSubmit={handleSubmit}
           register={register}
           onSubmit={onSubmit}
-          errors={errors}
-          user={user}
+          loading={loading}
+        />
+      )}
+      {editSection === "experiences" && (
+        <AddExperienceModel
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          register={register}
+          onSubmit={onSubmit}
           loading={loading}
         />
       )}

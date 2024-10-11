@@ -16,6 +16,8 @@ const jobPostSchema = new mongoose.Schema({
   salary: { type: String },
   location: { type: String },
   bookmark: { type: Boolean, default: false },
+  viewCount: { type: Number, default: 0 },
+  applicationCount: { type: Number, default: 0 },
   applications: [{ type: mongoose.Schema.Types.ObjectId, ref: "Application" }],
 });
 

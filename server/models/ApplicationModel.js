@@ -20,6 +20,8 @@ const applicationSchema = new mongoose.Schema({
   updatedAt: { type: Date },
   resume: { type: String },
   coverLetter: { type: String },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 const Application = mongoose.model("Application", applicationSchema);

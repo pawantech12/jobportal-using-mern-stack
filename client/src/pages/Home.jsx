@@ -370,7 +370,7 @@ const Home = () => {
           </div>
         </div>
         <div className="w-2/3 relative -z-10">
-          <img src={imgJob} alt="" />
+          <img src={imgJob} alt="Job image" />
           <div className="p-1 w-64 absolute z-20 top-1/2 -left-1/3 border border-gray-200 rounded-2xl bg-white animate-updown">
             <div className="bg-violet-50 rounded-2xl px-6 py-4">
               <h4 className="text-center text-xl font-medium text-neutral-700">

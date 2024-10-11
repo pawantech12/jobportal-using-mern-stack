@@ -27,10 +27,29 @@ export const Login = () => {
 
       if (response.data && response.data.token) {
         storeTokenInLS(response.data.token); // Assuming the token is in response.data.token
+
+        // Create a notification for successful login
+        const notificationData = {
+          userId: response.data.userId, // Ensure this comes from your login response
+          message: "Successfully logged in! Welcome back!",
+          type: "login",
+        };
+
+        // Send the notification
+        await axios.post(
+          "http://localhost:3000/api/notification",
+          notificationData,
+          {
+            headers: {
+              Authorization: `Bearer ${response.data.token}`, // Send the token for authorization
+            },
+          }
+        );
+
         setTimeout(() => {
           navigate("/dashboard"); // Replace with your dashboard route
         }, 3000);
-        setSuccess(response.data.msg);
+        setSuccess("Login successful!");
       }
       setMsg(response.data.message);
     } catch (error) {
@@ -103,7 +122,7 @@ export const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
           <p className="text-center mt-3">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link to="/register" className="text-violet-500 font-medium">
               Sign Up
             </Link>

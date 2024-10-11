@@ -13,7 +13,8 @@ const companySchema = new mongoose.Schema({
   size: { type: Number },
   employers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Employer" }],
   bookmark: { type: Boolean, default: false },
+  jobPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "JobPost" }],
 });
 
-// const Company = mongoose.model("Company", companySchema);
+const Company = mongoose.model("Company", companySchema);
 module.exports = companySchema;

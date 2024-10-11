@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const educationSchema = require("./EducationModel");
-const certificationSchema = require("./CertificationModel");
 
 const userSchema = new mongoose.Schema({
   firstname: { type: String, required: true },
@@ -20,7 +18,11 @@ const userSchema = new mongoose.Schema({
   status: { type: Boolean, default: false },
   age: { type: Number },
   address: { type: String },
-  userType: { type: String, enum: ["candidate", "employer"], required: true },
+  userType: {
+    type: String,
+    enum: ["candidate", "employer", "admin"],
+    required: true,
+  },
   headline: { type: String },
   summary: { type: String },
   candidates: { type: mongoose.Schema.Types.ObjectId, ref: "Candidate" },
@@ -30,6 +32,7 @@ const userSchema = new mongoose.Schema({
   certifications: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Certification" },
   ],
+  experiences: [{ type: mongoose.Schema.Types.ObjectId, ref: "Experience" }],
   createdAt: { type: Date, default: Date.now },
 });
 

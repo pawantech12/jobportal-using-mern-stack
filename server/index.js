@@ -7,7 +7,7 @@ const socketIo = require("socket.io");
 const connectDB = require("./utils/DB");
 const router = require("./routers/AuthRouter");
 const UpdateSectionRouter = require("./routers/UpdateSectionRouter");
-
+const notificationRouter = require("./routers/NotificationRouter");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -28,6 +28,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/auth", router);
 app.use("/api", UpdateSectionRouter);
+app.use("/api/notification", notificationRouter);
 
 // WebSocket handling
 const users = {}; // Track online users
