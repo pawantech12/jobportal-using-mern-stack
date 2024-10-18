@@ -44,7 +44,7 @@ const Navbar = () => {
       console.log("Fetching notifications...");
 
       const response = await fetch(
-        `http://localhost:3000/api/notification/get-notification`,
+        `http://localhost:3000/api/notifications/get-notification`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -176,14 +176,14 @@ const Navbar = () => {
         {token ? (
           <>
             <div className="relative" onClick={handleNotificationClick}>
-              <BiBell className="text-xl cursor-pointer" />
+              <BiBell className="w-6 h-6 cursor-pointer" />
               {unreadCount > 0 && (
                 <span className="absolute top-[-4px] right-[-4px] bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
                   {unreadCount}
                 </span>
               )}
               {notificationVisible && (
-                <ul className="absolute top-16 right-0 py-4 z-20 px-3 text-sm mt-2 w-56 bg-white shadow-lg rounded-md border border-gray-200 transition-all ease-in-out duration-200">
+                <ul className="absolute top-8 right-0 py-4 z-20 px-3 text-sm mt-2 w-56 bg-white shadow-lg rounded-md border border-gray-200 transition-all ease-in-out duration-200">
                   {notifications?.map((notification) => (
                     <li
                       key={notification._id}

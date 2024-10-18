@@ -9,7 +9,9 @@ const register = async (req, res) => {
     // checking whether the email is already exist or not
     const userExist = await User.findOne({ email: email });
     if (userExist) {
-      return res.status(400).json({ msg: "Email already exist" });
+      return res
+        .status(400)
+        .json({ msg: "Email already exist", success: false });
     }
 
     // If user not exist then it will create new user
@@ -24,6 +26,7 @@ const register = async (req, res) => {
 
     res.status(201).json({
       msg: "Registration Successfull",
+      success: true,
       token: await userCreated.generateToken(),
       userId: userCreated._id.toString(),
     });
@@ -40,7 +43,9 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const userExist = await User.findOne({ email });
     if (!userExist) {
-      return res.status(400).json({ message: "invalid credentials" });
+      return res
+        .status(400)
+        .json({ message: "invalid credentials", success: false });
     }
 
     // const user = await bcrypt.compare(password,userExist.password);
@@ -48,11 +53,14 @@ const login = async (req, res) => {
     if (user) {
       res.status(200).json({
         msg: "Login Successfull",
+        success: true,
         token: await userExist.generateToken(),
         userId: userExist._id.toString(),
       });
     } else {
-      res.status(401).json({ message: "Invalid Email or password" });
+      res
+        .status(401)
+        .json({ message: "Invalid Email or password", success: false });
     }
   } catch (error) {
     res.status(500).json("Internal Server Error");
@@ -94,6 +102,9 @@ const getUserData = async (req, res) => {
       })
       .populate({
         path: "certifications",
+      })
+      .populate({
+        path: "experiences",
       });
     if (!user) {
       return res.status(404).json({ message: "User not found" });

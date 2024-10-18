@@ -28,7 +28,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/auth", router);
 app.use("/api", UpdateSectionRouter);
-app.use("/api/notification", notificationRouter);
+app.use("/api/notifications", notificationRouter);
 
 // WebSocket handling
 const users = {}; // Track online users

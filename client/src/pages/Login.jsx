@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../stores/auth"; // Assumed to handle token storage
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -13,8 +15,6 @@ export const Login = () => {
   } = useForm();
   const { storeTokenInLS } = useAuth(); // Storing token in localStorage or any other state management
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState();
-  const [success, setSuccess] = useState();
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -37,7 +37,7 @@ export const Login = () => {
 
         // Send the notification
         await axios.post(
-          "http://localhost:3000/api/notification",
+          "http://localhost:3000/api/notifications",
           notificationData,
           {
             headers: {
@@ -49,12 +49,12 @@ export const Login = () => {
         setTimeout(() => {
           navigate("/dashboard"); // Replace with your dashboard route
         }, 3000);
-        setSuccess("Login successful!");
+        toast.success("Login successful!");
       }
-      setMsg(response.data.message);
+      toast.error(response.data.message);
     } catch (error) {
       console.error("Login failed:", error);
-      setMsg(error.response.data.message);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -71,19 +71,6 @@ export const Login = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-3 mt-8"
         >
-          {success || msg ? (
-            !success && msg ? (
-              <p className="text-red-700 bg-red-100 py-2 px-4 text-center font-medium rounded-md">
-                {msg}
-              </p>
-            ) : (
-              <p className="text-emerald-600 bg-emerald-100 py-2 px-4 text-center font-medium rounded-md">
-                {success}
-              </p>
-            )
-          ) : (
-            ""
-          )}
           <div className="flex flex-col gap-1">
             <label className="text-base font-medium" htmlFor="email">
               Email
@@ -129,6 +116,17 @@ export const Login = () => {
           </p>
         </form>
       </div>
+      <ToastContainer
+        position="bottom-right" // Set position to bottom-right
+        autoClose={5000} // Automatically close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={false} // Display newest on top
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </main>
   );
 };

@@ -14,12 +14,13 @@ import { Register } from "./pages/Register.jsx";
 import { Login } from "./pages/Login.jsx";
 import { ApplyJob } from "./pages/ApplyJob.jsx";
 import { Dashboard } from "./pages/admin/Dashboard.jsx";
-import { AdminHome } from "./pages/admin/pages/AdminHome.jsx";
 import { Bookmark } from "./pages/admin/pages/Bookmark.jsx";
 import { Application } from "./pages/admin/pages/Application.jsx";
 import { Profile } from "./pages/admin/pages/Profile.jsx";
 import ContactUs from "./pages/ContactUs.jsx";
 import { AuthProvider } from "./stores/auth.jsx";
+import { StudentAdmin } from "./pages/admin/pages/StudentAdmin.jsx";
+import JobPostsList from "./pages/admin/pages/JobPostsList.jsx";
 
 const router = createBrowserRouter([
   {
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard element={<AdminHome />} />,
+    element: <Dashboard element={<StudentAdmin />} />,
   },
   {
     path: "/dashboard/bookmark",
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/profile",
     element: <Dashboard element={<Profile />} />,
+  },
+  {
+    path: "/dashboard/job-posts",
+    element: <Dashboard element={<JobPostsList />} />,
   },
 ]);
 

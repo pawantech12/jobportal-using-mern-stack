@@ -47,7 +47,7 @@ const getNotifications = async (req, res) => {
 };
 
 const markAllAsRead = async (req, res) => {
-  const userId = req.user._id; // Assuming req.user contains the logged-in user's information
+  const userId = req.user.userId; // Assuming req.user contains the logged-in user's information
 
   try {
     const result = await Notification.updateMany(

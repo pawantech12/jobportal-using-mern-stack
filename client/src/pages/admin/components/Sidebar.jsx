@@ -4,8 +4,9 @@ import { RiDashboardHorizontalLine, RiLogoutBoxRLine } from "react-icons/ri";
 import { FaRegBell, FaRegHeart, FaRegUser } from "react-icons/fa";
 import { PiNoteDuotone } from "react-icons/pi";
 import { useAuth } from "../../../stores/auth";
+import { MdPostAdd } from "react-icons/md";
 const Sidebar = ({ isOpen }) => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const handleLogout = () => {
     logout();
     Navigate("/");
@@ -34,6 +35,16 @@ const Sidebar = ({ isOpen }) => {
               Bookmark
             </Link>
           </li>
+          <li>
+            <Link
+              to="/dashboard/job-posts"
+              className="group flex items-center gap-2 py-4 px-6 font-medium  hover:bg-violet-400 hover:text-white text-lg transition-all ease-in-out duration-200"
+            >
+              <MdPostAdd className="w-6 h-6 group-hover:animate-bounce" /> Job
+              Posts
+            </Link>
+          </li>
+
           <li>
             <Link
               to="/"

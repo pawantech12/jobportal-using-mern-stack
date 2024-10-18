@@ -22,9 +22,11 @@ export const Register = () => {
         data
       );
       console.log(response.data);
-      setTimeout(() => {
-        navigate("/dashboard"); // Replace "/another-page" with the desired route
-      }, 3000);
+      if (response.data.success) {
+        setTimeout(() => {
+          navigate("/dashboard"); // Replace "/another-page" with the desired route
+        }, 3000);
+      }
     } catch (error) {
       console.error(error);
     } finally {

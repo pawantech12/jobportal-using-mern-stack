@@ -162,6 +162,7 @@ export const Profile = () => {
       setLoading(false);
     }
   };
+  console.log("user details: ", user);
 
   return (
     <>

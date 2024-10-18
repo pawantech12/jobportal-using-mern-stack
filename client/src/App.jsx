@@ -1,6 +1,7 @@
 import { Footer } from "./components/Footer";
 import Navbar from "./components/Navbar";
 
+import "react-toastify/dist/ReactToastify.css";
 function App({ element }) {
   return (
     <>
