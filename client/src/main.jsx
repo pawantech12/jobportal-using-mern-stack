@@ -21,6 +21,8 @@ import ContactUs from "./pages/ContactUs.jsx";
 import { AuthProvider } from "./stores/auth.jsx";
 import { StudentAdmin } from "./pages/admin/pages/StudentAdmin.jsx";
 import JobPostsList from "./pages/admin/pages/JobPostsList.jsx";
+import JobPost from "./pages/admin/pages/JobPost.jsx";
+import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -87,12 +89,27 @@ const router = createBrowserRouter([
     path: "/dashboard/job-posts",
     element: <Dashboard element={<JobPostsList />} />,
   },
+  {
+    path: "/dashboard/create-job",
+    element: <Dashboard element={<JobPost />} />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
+      <ToastContainer
+        position="bottom-right" // Set position to bottom-right
+        autoClose={5000} // Automatically close after 5 seconds
+        hideProgressBar={false} // Show progress bar
+        newestOnTop={false} // Display newest on top
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </AuthProvider>
   </React.StrictMode>
 );

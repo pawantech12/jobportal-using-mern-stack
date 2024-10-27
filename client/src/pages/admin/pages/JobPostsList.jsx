@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import JobSampleData from "../../../data/job.sample.data";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { MdOutlineAdd } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const JobPostsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,9 +59,16 @@ const JobPostsList = () => {
     <div className=" mx-auto">
       <div className="py-8">
         <div className="flex flex-row mb-1  justify-between w-full">
-          <h2 className="text-xl font-medium text-neutral-600">
-            All Application
-          </h2>
+          <h2 className="text-xl font-medium text-neutral-600">All Jobs</h2>
+          <button className=" bg-violet-400 px-4 py-2 rounded-md text-white font-medium text-sm hover:bg-violet-500">
+            <Link
+              to={`/dashboard/create-job`}
+              className="flex items-center gap-1"
+            >
+              <MdOutlineAdd className="w-5 h-5" />
+              Add Job
+            </Link>
+          </button>
         </div>
         <div className="py-4 overflow-x-auto">
           <div className="inline-block min-w-full rounded-md overflow-hidden">

@@ -8,6 +8,7 @@ const connectDB = require("./utils/DB");
 const router = require("./routers/AuthRouter");
 const UpdateSectionRouter = require("./routers/UpdateSectionRouter");
 const notificationRouter = require("./routers/NotificationRouter");
+const JobRouter = require("./routers/JobRouter");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -28,6 +29,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/auth", router);
 app.use("/api", UpdateSectionRouter);
+app.use("/api", JobRouter);
 app.use("/api/notifications", notificationRouter);
 
 // WebSocket handling

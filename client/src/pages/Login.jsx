@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../stores/auth"; // Assumed to handle token storage
 import axios from "axios";
-import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 
 export const Login = () => {
@@ -116,17 +115,6 @@ export const Login = () => {
           </p>
         </form>
       </div>
-      <ToastContainer
-        position="bottom-right" // Set position to bottom-right
-        autoClose={5000} // Automatically close after 5 seconds
-        hideProgressBar={false} // Show progress bar
-        newestOnTop={false} // Display newest on top
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </main>
   );
 };

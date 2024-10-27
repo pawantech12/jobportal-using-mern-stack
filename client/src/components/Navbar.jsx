@@ -205,7 +205,7 @@ const Navbar = () => {
             <div className="relative">
               <div
                 onClick={toggleProfileDropdown}
-                className="w-14 h-14 rounded-full bg-gray-200 cursor-pointer flex items-center justify-center"
+                className="w-12 h-12 rounded-full bg-gray-200 cursor-pointer flex items-center justify-center"
               >
                 <img
                   src={user?.profileImg || defaultProfile}

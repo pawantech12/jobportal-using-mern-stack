@@ -20,13 +20,14 @@ const userSchema = new mongoose.Schema({
   address: { type: String },
   userType: {
     type: String,
-    enum: ["candidate", "employer", "admin"],
+    enum: ["candidate", "employer", "company"],
     required: true,
   },
   headline: { type: String },
   summary: { type: String },
   candidates: { type: mongoose.Schema.Types.ObjectId, ref: "Candidate" },
   employers: { type: mongoose.Schema.Types.ObjectId, ref: "Employer" },
+  company: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
   education: [{ type: mongoose.Schema.Types.ObjectId, ref: "Education" }],
   skills: [{ type: String }],
   certifications: [
