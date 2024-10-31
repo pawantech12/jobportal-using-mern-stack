@@ -1,22 +1,39 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoChevronDownOutline, IoClose } from "react-icons/io5";
 import { useAuth } from "../../../stores/auth";
 import { toast } from "react-toastify";
+import { FaEdit } from "react-icons/fa";
 
 const JobPost = () => {
   const {
     register,
     handleSubmit,
+    reset,
     setValue,
     getValues,
     formState: { errors },
   } = useForm();
 
   const [skills, setSkills] = useState([]);
+  const [category, setCategory] = useState([]);
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/category/");
+        setCategory(response.data.categories);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategory();
+  }, [token]);
 
   // Add new skill
   const addSkill = () => {
@@ -39,24 +56,42 @@ const JobPost = () => {
   const removeSkill = (skillToRemove) => {
     setSkills(skills.filter((skill) => skill !== skillToRemove));
   };
+  console.log("token: ", token);
 
   const onSubmit = async (data) => {
     // Ensure skills are included in the submission
-    data.skills = skills;
+    data.requiredSkills = skills;
+
     console.log(data);
+
+    const formData = new FormData();
+
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+
+    if (data.jobCoverImage) {
+      formData.append("jobCoverImage", data.jobCoverImage[0]);
+    }
+
     setLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:3000/api/create-job",
-        data,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
       console.log("Response:", response);
       toast.success(response.data.message);
+
+      // Reset the form
+      reset();
+      setImagePreview(null);
     } catch (error) {
       console.log("Error posting job:", error);
       toast.error(error.response.data.message);
@@ -74,6 +109,34 @@ const JobPost = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6 border border-gray-200 px-6 py-4 rounded-xl"
       >
+        <div className="flex justify-center">
+          <div className="relative w-9/12 h-96 ">
+            <img
+              src={
+                imagePreview ||
+                "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"
+              } // Use userDetails's banner image
+              alt="banner img"
+              className=" w-full h-full object-cover mx-auto rounded-lg shadow-lg"
+            />
+
+            <label className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-md hover:bg-gray-200 transition duration-300 cursor-pointer">
+              <FaEdit className="text-gray-700" />
+              <input
+                type="file"
+                onChange={(event) => {
+                  const file = event.target.files[0];
+                  if (file) {
+                    // Store the file in the form data manually
+                    setValue("jobCoverImage", event.target.files);
+                    setImagePreview(URL.createObjectURL(file)); // Preview image
+                  }
+                }}
+                className="hidden"
+              />
+            </label>
+          </div>
+        </div>
         {/* Job Title */}
         <div>
           <label className="block font-medium text-gray-700">Job Title</label>
@@ -92,17 +155,15 @@ const JobPost = () => {
         <div>
           <label className="block font-medium text-gray-700">Description</label>
           <textarea
-            {...register("description", {
+            {...register("desc", {
               required: "Job Description is required",
             })}
             className="w-full mt-2 p-3 border rounded-md outline-none"
             placeholder="Enter job description"
             rows="4"
           ></textarea>
-          {errors.description && (
-            <span className="text-red-500 text-sm">
-              {errors.description.message}
-            </span>
+          {errors.desc && (
+            <span className="text-red-500 text-sm">{errors.desc.message}</span>
           )}
         </div>
 
@@ -142,15 +203,15 @@ const JobPost = () => {
               Deadline Date
             </label>
             <input
-              {...register("deadlineDate", {
+              {...register("deadline", {
                 required: "Deadline Date is required",
               })}
               type="date"
               className="w-full mt-2 p-3 border rounded-md outline-none "
             />
-            {errors.deadlineDate && (
+            {errors.deadline && (
               <span className="text-red-500 text-sm">
-                {errors.deadlineDate.message}
+                {errors.deadline.message}
               </span>
             )}
           </div>
@@ -196,12 +257,13 @@ const JobPost = () => {
               className="w-full p-3 border rounded-md outline-none appearance-none"
             >
               <option value="">Select Job Category</option>
-              <option value="engineering">Engineering</option>
-              <option value="sales">Sales</option>
-              <option value="marketing">Marketing</option>
-              <option value="design">Design</option>
-              <option value="writing">Writing</option>
-              <option value="teaching">Teaching</option>
+              {category?.map((category, index) => {
+                return (
+                  <option key={index} value={category?.name}>
+                    {category?.name}
+                  </option>
+                );
+              })}
             </select>
             <div className="absolute inset-y-0 right-2 flex items-center px-2 pointer-events-none">
               <IoChevronDownOutline
@@ -232,8 +294,8 @@ const JobPost = () => {
                 {...register("salaryType")}
                 className="p-3 border rounded-md outline-none appearance-none w-full"
               >
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Yearly">Yearly</option>
               </select>
               <div className="absolute inset-y-0 right-2 flex items-center px-2 pointer-events-none">
                 <IoChevronDownOutline

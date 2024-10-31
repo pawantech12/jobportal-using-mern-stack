@@ -5,7 +5,7 @@ const {
   createNotification,
   getNotifications,
   markAllAsRead,
-} = require("../controllers/NotificationController");
+} = require("../controllers/notification.controller");
 const router = express.Router();
 
 router.route("/").post(authenticateToken, createNotification);

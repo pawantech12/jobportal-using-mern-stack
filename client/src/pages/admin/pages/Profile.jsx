@@ -4,10 +4,9 @@ import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { useAuth } from "../../../stores/auth";
 import axios from "axios";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 import defaultProfile from "../../../images/default-profile.jpg";
 
-import { storage } from "../../../../firebase/firebase";
 import { EditProfileModel } from "../components/EditProfileModel";
 import { useForm } from "react-hook-form";
 import { EditSummaryModel } from "../components/EditSummaryModel";
@@ -18,6 +17,7 @@ import { io } from "socket.io-client";
 import certificationImg from "../../../images/certification-img.avif";
 import experienceImg from "../../../images/experience-img.avif";
 import { AddExperienceModel } from "../components/AddExperienceModel";
+import { toast } from "react-toastify";
 
 export const Profile = () => {
   const {
@@ -72,7 +72,6 @@ export const Profile = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null); // File to be uploaded
-  const [imageUploadProgress, setImageUploadProgress] = useState(0);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -92,47 +91,15 @@ export const Profile = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    let profileImageUrl = user?.profileImg || ""; // Default to existing profile image
 
-    // Upload to Firebase only if a new image was selected
+    console.log("data: ", data);
+
+    // Check if profileImg exists and has at least one item
     if (imageFile) {
-      const storageRef = ref(storage, `profile_images/${imageFile.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, imageFile);
-
-      await new Promise((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setImageUploadProgress(progress);
-          },
-          (error) => reject(error),
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref)
-              .then((downloadURL) => {
-                profileImageUrl = downloadURL;
-                resolve();
-              })
-              .catch(reject);
-          }
-        );
-      });
+      data.profileImg = imageFile;
+    } else {
+      data.profileImg = null; // or set a default value, if necessary
     }
-    // Prepare the data for the correct section
-    if (editSection === "profile" && profileImageUrl) {
-      data.profileImg = profileImageUrl;
-    }
-    // const updateData = {
-    //   headline: data.headline,
-    //   summary: data.summary,
-    //   skills: data.skills,
-    //   profileImage: data.profileImg,
-    //   firstname: data.firstname,
-    //   lastname: data.lastname,
-    //   education: [data], // Wrap education in an array if it's just one entry
-    //   certifications: [data], // Wrap education in an array if it's just one entry
-    // };
 
     console.log("Data sending to backend: ", data);
 
@@ -144,6 +111,7 @@ export const Profile = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -155,14 +123,18 @@ export const Profile = () => {
         [editSection]: response.data.user[editSection], // Update the specific section dynamically
       }));
       console.log("Response d:", response.data);
+
+      toast.success(response.data.message);
       handleClose();
     } catch (error) {
+      toast.error(error.response.data.message);
       console.error(`Failed to update profile: ${editSection}`, error);
     } finally {
       setLoading(false);
     }
   };
   console.log("user details: ", user);
+  console.log("setImage: ", imageFile);
 
   return (
     <>

@@ -23,6 +23,7 @@ import { StudentAdmin } from "./pages/admin/pages/StudentAdmin.jsx";
 import JobPostsList from "./pages/admin/pages/JobPostsList.jsx";
 import JobPost from "./pages/admin/pages/JobPost.jsx";
 import { ToastContainer } from "react-toastify";
+import Category from "./pages/admin/pages/Category.jsx";
 
 const router = createBrowserRouter([
   {
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard/create-job",
     element: <Dashboard element={<JobPost />} />,
+  },
+  {
+    path: "/dashboard/category",
+    element: <Dashboard element={<Category />} />,
   },
 ]);
 

@@ -1,7 +1,8 @@
-const User = require("../models/UserModel");
-const Education = require("../models/EducationModel");
-const Certification = require("../models/CertificationModel");
-const Experience = require("../models/ExperienceModel");
+const User = require("../models/user.model");
+const Education = require("../models/education.model");
+const Certification = require("../models/certification.model");
+const Experience = require("../models/experience.model");
+const cloudinary = require("../config/cloudinary");
 const UpdateSection = async (req, res) => {
   const { section } = req.params;
   const userId = req.user.userId; // Assuming you have middleware to extract user ID from JWT
@@ -10,6 +11,35 @@ const UpdateSection = async (req, res) => {
   console.log("update dt: ", updateData);
 
   try {
+    // Find the user by ID
+    const currentUser = await User.findById(userId);
+
+    // Handle image uploads
+    if (req.file) {
+      // Delete the previous profile image from Cloudinary
+      if (currentUser.profileImg) {
+        const publicId = currentUser.profileImg.split("/").pop().split(".")[0]; // Extract public ID
+        await cloudinary.uploader.destroy(
+          `job_board_website/profile_images/${publicId}`
+        );
+      }
+
+      const profileImgResult = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "job_board_website/profile_images" },
+          (error, result) => {
+            if (error) {
+              console.error("Cloudinary upload error:", error);
+              return reject(new Error("Image upload failed"));
+            }
+            resolve(result);
+          }
+        );
+        stream.end(req.file.buffer); // Send the file buffer to Cloudinary
+      });
+      updateData.profileImg = profileImgResult.secure_url; // Store the new URL
+    }
+
     // Ensure valid data for specific sections
     if (section === "skills" && !Array.isArray(updateData.skills)) {
       return res.status(400).json({ error: "Skills must be an array" });

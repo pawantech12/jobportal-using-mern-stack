@@ -5,10 +5,11 @@ const http = require("http");
 const cors = require("cors");
 const socketIo = require("socket.io");
 const connectDB = require("./utils/DB");
-const router = require("./routers/AuthRouter");
-const UpdateSectionRouter = require("./routers/UpdateSectionRouter");
-const notificationRouter = require("./routers/NotificationRouter");
-const JobRouter = require("./routers/JobRouter");
+const router = require("./routers/authentication.router");
+const UpdateSectionRouter = require("./routers/update.router");
+const notificationRouter = require("./routers/notification.router");
+const JobRouter = require("./routers/job.router");
+const categoryRouter = require("./routers/category.router");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
@@ -31,6 +32,7 @@ app.use("/api/auth", router);
 app.use("/api", UpdateSectionRouter);
 app.use("/api", JobRouter);
 app.use("/api/notifications", notificationRouter);
+app.use("/api/category", categoryRouter);
 
 // WebSocket handling
 const users = {}; // Track online users

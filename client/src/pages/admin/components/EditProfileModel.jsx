@@ -52,7 +52,7 @@ export const EditProfileModel = ({
               <input
                 id="profile-upload"
                 type="file"
-                accept="image/*"
+                {...register("profileImg", { required: true })}
                 className="hidden"
                 onChange={handleImageChange}
               />

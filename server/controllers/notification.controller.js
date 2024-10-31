@@ -1,4 +1,4 @@
-const Notification = require("../models/NotificationModel"); // Adjust the path as necessary
+const Notification = require("../models/notification.model"); // Adjust the path as necessary
 
 // Create a notification
 const createNotification = async (req, res) => {
