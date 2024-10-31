@@ -18,6 +18,7 @@ import certificationImg from "../../../images/certification-img.avif";
 import experienceImg from "../../../images/experience-img.avif";
 import { AddExperienceModel } from "../components/AddExperienceModel";
 import { toast } from "react-toastify";
+import { formatDate } from "../../../helper/formate.date";
 
 export const Profile = () => {
   const {
@@ -83,10 +84,6 @@ export const Profile = () => {
       // Store the file for uploading later
       setImageFile(file);
     }
-  };
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long" };
-    return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
   const onSubmit = async (data) => {

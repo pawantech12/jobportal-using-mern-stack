@@ -24,6 +24,17 @@ const createJob = async (req, res) => {
       experienceLevel,
       requiredSkills,
     } = req.body;
+
+    let parsedRequiredSkills;
+    try {
+      parsedRequiredSkills = JSON.parse(requiredSkills);
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid requiredSkills format",
+      });
+    }
+
     const user = await User.findById(userId);
 
     if (!user) {
@@ -73,7 +84,7 @@ const createJob = async (req, res) => {
         title,
         company: user.company,
         desc,
-        requiredSkills,
+        requiredSkills: parsedRequiredSkills,
         deadline,
         jobType,
         jobCategory: jobCategory._id,
@@ -111,6 +122,47 @@ const createJob = async (req, res) => {
 
 const getAllJobsPostedByUser = async (req, res) => {
   // write get all job posted by user
+  try {
+    const userId = req.user.userId;
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    const jobs = await JobPost.find({ employerId: userId });
+
+    res.status(200).json({
+      success: true,
+      jobs,
+    });
+  } catch (error) {
+    console.log("error while getting all jobs", error);
+  }
 };
 
-module.exports = { createJob };
+// delete job with jobCoverImage from cloudinary using jobid
+const deleteJob = async (req, res) => {
+  const jobid = req.params.id;
+  try {
+    const job = await JobPost.findById(jobid);
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        message: "Job not found",
+      });
+    }
+    await cloudinary.uploader.destroy(job.publicId);
+
+    await JobPost.findByIdAndDelete(jobid);
+
+    res.status(200).json({
+      success: true,
+      message: "Job deleted successfully",
+    });
+  } catch (error) {
+    console.log("error while deleting job", error);
+  }
+};
+
+module.exports = { createJob, getAllJobsPostedByUser, deleteJob };

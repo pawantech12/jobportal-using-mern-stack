@@ -1,21 +1,50 @@
-import React, { useState } from "react";
-import JobSampleData from "../../../data/job.sample.data";
+import React, { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { MdOutlineAdd } from "react-icons/md";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "../../../stores/auth";
+import { formatDate, getStatus } from "../../../helper/formate.date";
+import { toast } from "react-toastify";
 
 const JobPostsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [jobs, setJobs] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // New state for delete modal
+  const [selectedJobId, setSelectedJobId] = useState(null);
   const entriesPerPage = 5;
 
+  const { token } = useAuth();
+
+  useEffect(() => {
+    const fetchAllJobsPostedByCurrentUser = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/all-jobs", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setJobs(response.data.jobs);
+      } catch (error) {
+        console.log("error while fetching jobs", error);
+      }
+    };
+
+    fetchAllJobsPostedByCurrentUser();
+  }, [token]);
+
   // Calculate total pages
-  const totalPages = Math.ceil(JobSampleData.length / entriesPerPage);
+  const totalPages = Math.ceil(jobs.length / entriesPerPage);
 
   // Define the max page buttons to show in the pagination (e.g., 5)
   const maxVisiblePages = 5;
 
   // Get current blogs for the page
-  const currentJobs = JobSampleData.slice(
+  const currentJobs = jobs.slice(
     (currentPage - 1) * entriesPerPage,
     currentPage * entriesPerPage
   );
@@ -26,6 +55,9 @@ const JobPostsList = () => {
       setCurrentPage(page);
     }
   };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   // Generate pagination numbers with "..." logic
   const getPaginationRange = () => {
@@ -55,8 +87,40 @@ const JobPostsList = () => {
     return paginationArray;
   };
 
+  const confirmDelete = (id) => {
+    setSelectedJobId(id); // Set selected category ID
+    setShowDeleteModal(true); // Show delete confirmation modal
+  };
+
+  const handleDeleteConfirmed = async (jobid) => {
+    if (!selectedJobId) return;
+    setLoading(true);
+    try {
+      const response = await axios.delete(
+        `http://localhost:3000/api/delete-job/${selectedJobId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+
+      setJobs(jobs.filter((job) => job._id !== selectedJobId));
+
+      toast.success(response.data.message);
+
+      setShowDeleteModal(false);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className=" mx-auto">
+    <div className=" mx-auto relative">
       <div className="py-8">
         <div className="flex flex-row mb-1  justify-between w-full">
           <h2 className="text-xl font-medium text-neutral-600">All Jobs</h2>
@@ -93,32 +157,43 @@ const JobPostsList = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentJobs.map((job, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="p-4 border-b">{job.jobTitle}</td>
-                    <td className="p-4 border-b">{job.jobCreated}</td>
-                    <td className="p-4 border-b">{job.applicants}</td>
-                    <td className="p-4 border-b">
-                      <span
-                        className={`${
-                          job.status === "Open"
-                            ? "text-emerald-500 bg-emerald-100 px-2 py-2 font-medium rounded-md text-sm"
-                            : "text-gray-500 bg-gray-100 px-2 py-2 font-medium rounded-md text-sm"
-                        }`}
-                      >
-                        {job.status}
-                      </span>
-                    </td>
-                    <td className="p-4 border-b flex space-x-4">
-                      <button className="text-red-500 hover:text-red-700 bg-red-100 px-2 py-2 font-medium rounded-md text-sm">
-                        <FaTrash />
-                      </button>
-                      <button className="text-emerald-500 hover:text-emerald-700 bg-emerald-100 px-2 py-2 font-medium rounded-md">
-                        <FaEdit />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {currentJobs.map((job, index) => {
+                  const status = getStatus(job.deadline);
+                  // console.log("status: ", status);
+                  return (
+                    <tr key={index} className="hover:bg-gray-50">
+                      <td className="p-4 border-b">{job.title}</td>
+                      <td className="p-4 border-b">
+                        {formatDate(job.postedAt)}
+                      </td>
+                      <td className="p-4 border-b">
+                        {job.applications.length}
+                      </td>
+                      <td className="p-4 border-b">
+                        <span
+                          className={`${
+                            status === "Open"
+                              ? "text-emerald-500 bg-emerald-100 px-2 py-2 font-medium rounded-md text-sm"
+                              : "text-gray-500 bg-gray-100 px-2 py-2 font-medium rounded-md text-sm"
+                          }`}
+                        >
+                          {status}
+                        </span>
+                      </td>
+                      <td className="p-4 border-b flex space-x-4">
+                        <button
+                          className="text-red-500 hover:text-white bg-red-100 hover:bg-red-500 px-2 py-2 font-medium rounded-md text-sm"
+                          onClick={() => confirmDelete(job._id)}
+                        >
+                          <FaTrash />
+                        </button>
+                        <button className="text-emerald-500 hover:text-emerald-700 bg-emerald-100 px-2 py-2 font-medium rounded-md">
+                          <FaEdit />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
 
@@ -130,9 +205,8 @@ const JobPostsList = () => {
                 {currentJobs.length > 0
                   ? (currentPage - 1) * entriesPerPage + 1
                   : 0}{" "}
-                to{" "}
-                {Math.min(currentPage * entriesPerPage, JobSampleData.length)}{" "}
-                of {JobSampleData.length} entries
+                to {Math.min(currentPage * entriesPerPage, jobs.length)} of{" "}
+                {jobs.length} entries
               </div>
 
               {/* Pagination Buttons */}
@@ -188,6 +262,35 @@ const JobPostsList = () => {
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-80">
+            <h2 className="text-lg font-semibold text-gray-700">
+              Confirm Deletion
+            </h2>
+            <p className="mt-4 text-gray-600">
+              Are you sure you want to delete this category?
+            </p>
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="bg-gray-500 text-white px-4 py-2 rounded mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={loading}
+                onClick={handleDeleteConfirmed}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                {loading ? "Deleting..." : "Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

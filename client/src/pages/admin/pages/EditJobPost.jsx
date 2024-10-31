@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { FaEdit } from "react-icons/fa";
 import { Editor } from "@tinymce/tinymce-react";
 
-const JobPost = () => {
+const EditJobPost = () => {
   const {
     register,
     handleSubmit,
@@ -73,14 +73,8 @@ const JobPost = () => {
 
     const formData = new FormData();
 
-    // Append each key in data to formData
     for (const key in data) {
-      if (Array.isArray(data[key])) {
-        // Convert arrays to JSON strings
-        formData.append(key, JSON.stringify(data[key]));
-      } else {
-        formData.append(key, data[key]);
-      }
+      formData.append(key, data[key]);
     }
 
     if (data.jobCoverImage) {
@@ -445,4 +439,4 @@ const JobPost = () => {
   );
 };
 
-export default JobPost;
+export default EditJobPost;
